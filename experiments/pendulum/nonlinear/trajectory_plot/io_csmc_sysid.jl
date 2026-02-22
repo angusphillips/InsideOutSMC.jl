@@ -84,7 +84,7 @@ evaluator_loop = IBISClosedLoop(
 )
 
 action_penalty = 0.0
-slew_rate_penalty = 0.2
+slew_rate_penalty = 0.1
 tempering = 1.0
 
 nb_steps = 50
