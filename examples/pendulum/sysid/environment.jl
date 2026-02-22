@@ -63,7 +63,7 @@ module PendulumEnvironment
     function diffusion_fn(
         args::AbstractVector{Float64}...
     )::Vector{Float64}
-        return [0.0, 1e-1]
+        return [1e-3, 1e-1]
     end
 
     dynamics = StochasticDynamics(

@@ -210,7 +210,7 @@ module DoublePendulumEnvironment
     function diffusion_fn(
         args::AbstractVector{Float64}...,
     )::Vector{Float64}
-        return [0.0, 0.0, 1e-1, 1e-1]
+        return [1e-2, 1e-2, 1e-1, 1e-1]
     end
 
     xdim = 4
