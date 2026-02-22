@@ -25,18 +25,18 @@ using JLD2
 
 Random.seed!(1)
 
-policy = UniformStochasticPolicy([ctl_scale])
-# policy = PRBSStochasticPolicy([ctl_scale])
-# policy = load("./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl.jld2")["ctl"]
+# policy = UniformStochasticPolicy([ctl_scale])
+policy = PRBSStochasticPolicy([ctl_scale])
+policy = load("./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl.jld2")["ctl"]
 
 closedloop = IBISClosedLoop(
     ibis_dynamics, policy
 )
 
-nb_runs = 25
+nb_runs = 1
 nb_steps = 50
-nb_outer_samples = 16
-nb_inner_samples = 1_000_000
+nb_outer_samples = 2048
+nb_inner_samples = 100000
 
 their_estimator = zeros(nb_runs)
 

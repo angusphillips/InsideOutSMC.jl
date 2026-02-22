@@ -23,7 +23,8 @@ using .PendulumEnvironment: ctl_feature_fn
 using JLD2
 
 
-Random.seed!(1)
+train_seed = parse(Int, get(ENV, "TRAIN_SEED", "1"))
+Random.seed!(train_seed)
 
 input_dim = 2
 output_dim = 1
@@ -37,8 +38,8 @@ ctl_encoder_fn = Flux.f64(
         Flux.Dense(dense_size, recur_size),
         # Flux.LSTM(recur_size, recur_size),
         # Flux.LSTM(recur_size, recur_size),
-        Flux.GRU(recur_size, recur_size),
-        Flux.GRU(recur_size, recur_size),
+        Flux.GRU(recur_size => recur_size),
+        Flux.GRU(recur_size => recur_size),
     ),
 )
 
@@ -141,4 +142,11 @@ learner_loop, _ = markovian_score_climbing_with_ibis_marginal_dynamics(
     true
 )
 
-jldsave("./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl.jld2"; evaluator_loop.ctl)
+seed_output_path = "./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed$(train_seed).jld2"
+jldsave(seed_output_path; evaluator_loop.ctl)
+
+if train_seed == 1
+    jldsave("./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl.jld2"; evaluator_loop.ctl)
+end
+
+println("Saved trained policy to $(seed_output_path)")

@@ -57,8 +57,8 @@ for k in 1:nb_eval
             Flux.Dense(dense_size, recur_size),
             # Flux.LSTM(recur_size, recur_size),
             # Flux.LSTM(recur_size, recur_size),
-            Flux.GRU(recur_size, recur_size),
-            Flux.GRU(recur_size, recur_size),
+            Flux.GRU(recur_size => recur_size),
+            Flux.GRU(recur_size => recur_size),
         ),
     )
 

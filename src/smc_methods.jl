@@ -1,6 +1,16 @@
 using Random
 
 
+@inline function _is_stateful_recur_layer(layer)
+    return (
+        isdefined(Flux, :Recur)
+        && (layer isa getproperty(Flux, :Recur))
+        && hasproperty(layer, :cell)
+        && hasproperty(layer, :state)
+    )
+end
+
+
 function smc_step!(
     time_idx::Int,
     closedloop::ClosedLoop,
@@ -23,7 +33,7 @@ function smc_step!(
         if time_idx > 1
             if closedloop.ctl isa StatefulStochasticPolicy
                 for layer in closedloop.ctl.encoder_fn
-                    if layer isa Flux.Recur
+                    if _is_stateful_recur_layer(layer)
                         if layer.cell isa Flux.GRUCell
                             layer.state .= layer.state[:, state_struct.resampled_idx]
                         elseif layer.cell isa Flux.LSTMCell
@@ -80,7 +90,7 @@ function csmc_step!(
         if time_idx > 1
             if closedloop.ctl isa StatefulStochasticPolicy
                 for layer in closedloop.ctl.encoder_fn
-                    if layer isa Flux.Recur
+                    if _is_stateful_recur_layer(layer)
                         if layer.cell isa Flux.GRUCell
                             layer.state .= layer.state[:, state_struct.resampled_idx]
                         elseif layer.cell isa Flux.LSTMCell
@@ -144,7 +154,7 @@ function smc_step_with_ibis_marginal_dynamics!(
         if time_idx > 1
             if closedloop.ctl isa StatefulStochasticPolicy
                 for layer in closedloop.ctl.encoder_fn
-                    if layer isa Flux.Recur
+                    if _is_stateful_recur_layer(layer)
                         if layer.cell isa Flux.GRUCell
                             layer.state .= layer.state[:, state_struct.resampled_idx]
                         elseif layer.cell isa Flux.LSTMCell
@@ -225,7 +235,7 @@ function csmc_step_with_ibis_marginal_dynamics!(
         if time_idx > 1
             if closedloop.ctl isa StatefulStochasticPolicy
                 for layer in closedloop.ctl.encoder_fn
-                    if layer isa Flux.Recur
+                    if _is_stateful_recur_layer(layer)
                         if layer.cell isa Flux.GRUCell
                             layer.state .= layer.state[:, state_struct.resampled_idx]
                         elseif layer.cell isa Flux.LSTMCell
@@ -302,7 +312,7 @@ function smc_step_with_rao_blackwell_marginal_dynamics!(
         if time_idx > 1
             if closedloop.ctl isa StatefulStochasticPolicy
                 for layer in closedloop.ctl.encoder_fn
-                    if layer isa Flux.Recur
+                    if _is_stateful_recur_layer(layer)
                         if layer.cell isa Flux.GRUCell
                             layer.state .= layer.state[:, state_struct.resampled_idx]
                         elseif layer.cell isa Flux.LSTMCell
@@ -373,7 +383,7 @@ function csmc_step_with_rao_blackwell_marginal_dynamics!(
         if time_idx > 1
             if closedloop.ctl isa StatefulStochasticPolicy
                 for layer in closedloop.ctl.encoder_fn
-                    if layer isa Flux.Recur
+                    if _is_stateful_recur_layer(layer)
                         if layer.cell isa Flux.GRUCell
                             layer.state .= layer.state[:, state_struct.resampled_idx]
                         elseif layer.cell isa Flux.LSTMCell
@@ -431,7 +441,7 @@ function ancestor_sampling_weights_with_rao_blackwell_marginal_dynamics(
     hidden_state = []
     if closedloop.ctl isa StatefulStochasticPolicy
         for layer in closedloop.ctl.encoder_fn
-            if layer isa Flux.Recur
+            if _is_stateful_recur_layer(layer)
                 push!(hidden_state, deepcopy(layer.state))
             end
         end
@@ -478,7 +488,7 @@ function ancestor_sampling_weights_with_rao_blackwell_marginal_dynamics(
     # Copy back the hidden states of the policy
     if closedloop.ctl isa StatefulStochasticPolicy
         for layer in closedloop.ctl.encoder_fn
-            if layer isa Flux.Recur
+            if _is_stateful_recur_layer(layer)
                 if layer.cell isa Flux.GRUCell
                     layer.state .= popfirst!(hidden_state)
                 elseif layer.cell isa Flux.LSTMCell
@@ -533,7 +543,7 @@ function ancestor_sampling_csmc_step_with_rao_blackwell_marginal_dynamics!(
         if time_idx > 1
             if closedloop.ctl isa StatefulStochasticPolicy
                 for layer in closedloop.ctl.encoder_fn
-                    if layer isa Flux.Recur
+                    if _is_stateful_recur_layer(layer)
                         if layer.cell isa Flux.GRUCell
                             layer.state .= layer.state[:, state_struct.resampled_idx]
                         elseif layer.cell isa Flux.LSTMCell
