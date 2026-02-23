@@ -1,0 +1,105 @@
+====================================================
+Experiment: cartpole
+Training seeds: 1,2,3,4,5
+Load path: @:@stdlib
+====================================================
+[train:cartpole] TRAIN_SEED=1
+iter: 0, return: 1.4557, entropy: 1.4189
+iter: 1, return: 1.5987, entropy: 1.4169
+iter: 2, return: 3.0161, entropy: 1.4149
+iter: 3, return: 5.3214, entropy: 1.4131
+iter: 4, return: 7.1315, entropy: 1.4113
+iter: 5, return: 9.4341, entropy: 1.4099
+iter: 6, return: 10.1976, entropy: 1.4086
+iter: 7, return: 10.6840, entropy: 1.4070
+iter: 8, return: 11.0979, entropy: 1.4056
+iter: 9, return: 12.2530, entropy: 1.4041
+iter: 10, return: 12.4915, entropy: 1.4025
+iter: 11, return: 12.4030, entropy: 1.4007
+iter: 12, return: 13.0437, entropy: 1.3989
+iter: 13, return: 12.6405, entropy: 1.3972
+iter: 14, return: 12.6728, entropy: 1.3957
+iter: 15, return: 12.5927, entropy: 1.3944
+Saved trained policy to ./experiments/cartpole/data/cartpole_ibis_csmc_ctl_seed1.jld2
+[train:cartpole] TRAIN_SEED=2
+iter: 0, return: 1.4705, entropy: 1.4189
+iter: 1, return: 3.0701, entropy: 1.4169
+iter: 2, return: 5.7624, entropy: 1.4149
+iter: 3, return: 9.2907, entropy: 1.4129
+iter: 4, return: 10.7623, entropy: 1.4110
+iter: 5, return: 11.7422, entropy: 1.4093
+iter: 6, return: 12.0180, entropy: 1.4077
+iter: 7, return: 12.3193, entropy: 1.4061
+iter: 8, return: 12.5497, entropy: 1.4045
+iter: 9, return: 12.5692, entropy: 1.4028
+iter: 10, return: 12.4791, entropy: 1.4011
+iter: 11, return: 12.6104, entropy: 1.3993
+iter: 12, return: 12.5443, entropy: 1.3975
+iter: 13, return: 12.4813, entropy: 1.3959
+iter: 14, return: 12.6964, entropy: 1.3946
+iter: 15, return: 12.6688, entropy: 1.3932
+Saved trained policy to ./experiments/cartpole/data/cartpole_ibis_csmc_ctl_seed2.jld2
+[train:cartpole] TRAIN_SEED=3
+iter: 0, return: 1.4136, entropy: 1.4189
+iter: 1, return: 1.7860, entropy: 1.4169
+iter: 2, return: 1.5118, entropy: 1.4149
+iter: 3, return: 3.9018, entropy: 1.4130
+iter: 4, return: 5.6765, entropy: 1.4111
+iter: 5, return: 8.0274, entropy: 1.4091
+iter: 6, return: 9.2883, entropy: 1.4073
+iter: 7, return: 10.2766, entropy: 1.4055
+iter: 8, return: 10.6999, entropy: 1.4039
+iter: 9, return: 11.1214, entropy: 1.4023
+iter: 10, return: 11.0626, entropy: 1.4009
+iter: 11, return: 11.0355, entropy: 1.3996
+iter: 12, return: 11.0552, entropy: 1.3983
+iter: 13, return: 11.1634, entropy: 1.3971
+iter: 14, return: 11.1046, entropy: 1.3958
+iter: 15, return: 11.1025, entropy: 1.3946
+Saved trained policy to ./experiments/cartpole/data/cartpole_ibis_csmc_ctl_seed3.jld2
+[train:cartpole] TRAIN_SEED=4
+iter: 0, return: 1.4990, entropy: 1.4189
+iter: 1, return: 2.2157, entropy: 1.4169
+iter: 2, return: 6.0689, entropy: 1.4150
+iter: 3, return: 9.2322, entropy: 1.4130
+iter: 4, return: 9.8160, entropy: 1.4111
+iter: 5, return: 10.7739, entropy: 1.4092
+iter: 6, return: 10.6902, entropy: 1.4075
+iter: 7, return: 11.4023, entropy: 1.4059
+iter: 8, return: 11.0748, entropy: 1.4046
+iter: 9, return: 11.1904, entropy: 1.4034
+iter: 10, return: 10.9159, entropy: 1.4023
+iter: 11, return: 10.9342, entropy: 1.4013
+iter: 12, return: 10.9705, entropy: 1.4004
+iter: 13, return: 11.1795, entropy: 1.3994
+iter: 14, return: 11.0176, entropy: 1.3984
+iter: 15, return: 11.2307, entropy: 1.3974
+Saved trained policy to ./experiments/cartpole/data/cartpole_ibis_csmc_ctl_seed4.jld2
+[train:cartpole] TRAIN_SEED=5
+iter: 0, return: 1.4740, entropy: 1.4189
+iter: 1, return: 2.5793, entropy: 1.4169
+iter: 2, return: 4.3258, entropy: 1.4150
+iter: 3, return: 4.9945, entropy: 1.4131
+iter: 4, return: 4.6860, entropy: 1.4114
+iter: 5, return: 8.3510, entropy: 1.4097
+iter: 6, return: 10.3269, entropy: 1.4079
+iter: 7, return: 10.6615, entropy: 1.4059
+iter: 8, return: 10.7333, entropy: 1.4040
+iter: 9, return: 10.9642, entropy: 1.4021
+iter: 10, return: 10.8623, entropy: 1.4004
+iter: 11, return: 10.9583, entropy: 1.3989
+iter: 12, return: 10.9665, entropy: 1.3975
+iter: 13, return: 10.9457, entropy: 1.3962
+iter: 14, return: 10.9824, entropy: 1.3950
+iter: 15, return: 11.0108, entropy: 1.3939
+Saved trained policy to ./experiments/cartpole/data/cartpole_ibis_csmc_ctl_seed5.jld2
+[eval:cartpole] Running sPCE over training seeds
+train_seed: 1, sPCE: 12.3863 ± 0.3564
+train_seed: 2, sPCE: 12.3770 ± 0.1739
+train_seed: 3, sPCE: 11.0682 ± 0.4702
+train_seed: 4, sPCE: 10.9332 ± 0.5227
+train_seed: 5, sPCE: 10.9548 ± 0.7225
+Across training seeds sPCE: 11.5439 ± 0.7665
+Saved per-seed sPCE summary to ./experiments/cartpole/data/cartpole_spce_over_training_seeds.csv
+Pipeline complete.
+SBATCH script done!

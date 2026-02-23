@@ -1,0 +1,155 @@
+====================================================
+Experiment: nonlinear
+Training seeds: 1,2,3,4,5
+Load path: @:@stdlib
+====================================================
+[train:nonlinear] TRAIN_SEED=1
+iter: 0, return: 0.1403, entropy: 1.4189
+iter: 1, return: 0.1568, entropy: 1.4150
+iter: 2, return: 0.1800, entropy: 1.4111
+iter: 3, return: 0.4437, entropy: 1.4072
+iter: 4, return: 0.9540, entropy: 1.4033
+iter: 5, return: 1.3243, entropy: 1.4000
+iter: 6, return: 1.5356, entropy: 1.3974
+iter: 7, return: 2.2905, entropy: 1.3955
+iter: 8, return: 2.7789, entropy: 1.3934
+iter: 9, return: 3.0345, entropy: 1.3903
+iter: 10, return: 3.1278, entropy: 1.3871
+iter: 11, return: 3.3576, entropy: 1.3837
+iter: 12, return: 3.4363, entropy: 1.3801
+iter: 13, return: 3.4977, entropy: 1.3764
+iter: 14, return: 3.5977, entropy: 1.3728
+iter: 15, return: 3.5907, entropy: 1.3692
+iter: 16, return: 3.5920, entropy: 1.3657
+iter: 17, return: 3.6169, entropy: 1.3626
+iter: 18, return: 3.6716, entropy: 1.3595
+iter: 19, return: 3.6261, entropy: 1.3561
+iter: 20, return: 3.5618, entropy: 1.3529
+iter: 21, return: 3.7276, entropy: 1.3506
+iter: 22, return: 3.5896, entropy: 1.3479
+iter: 23, return: 3.6479, entropy: 1.3452
+iter: 24, return: 3.6071, entropy: 1.3434
+iter: 25, return: 3.7264, entropy: 1.3413
+Saved trained policy to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed1.jld2
+[train:nonlinear] TRAIN_SEED=2
+iter: 0, return: 0.1324, entropy: 1.4189
+iter: 1, return: 0.2213, entropy: 1.4150
+iter: 2, return: 0.1602, entropy: 1.4110
+iter: 3, return: 0.1595, entropy: 1.4070
+iter: 4, return: 0.2511, entropy: 1.4029
+iter: 5, return: 0.8640, entropy: 1.3990
+iter: 6, return: 1.0459, entropy: 1.3957
+iter: 7, return: 1.5926, entropy: 1.3927
+iter: 8, return: 1.9386, entropy: 1.3900
+iter: 9, return: 2.4421, entropy: 1.3870
+iter: 10, return: 2.8630, entropy: 1.3838
+iter: 11, return: 3.1028, entropy: 1.3803
+iter: 12, return: 3.2799, entropy: 1.3762
+iter: 13, return: 3.3889, entropy: 1.3715
+iter: 14, return: 3.4347, entropy: 1.3673
+iter: 15, return: 3.4377, entropy: 1.3638
+iter: 16, return: 3.5324, entropy: 1.3600
+iter: 17, return: 3.5288, entropy: 1.3562
+iter: 18, return: 3.5336, entropy: 1.3525
+iter: 19, return: 3.6027, entropy: 1.3489
+iter: 20, return: 3.6476, entropy: 1.3453
+iter: 21, return: 3.6171, entropy: 1.3418
+iter: 22, return: 3.7653, entropy: 1.3384
+iter: 23, return: 3.6787, entropy: 1.3352
+iter: 24, return: 3.6498, entropy: 1.3323
+iter: 25, return: 3.6720, entropy: 1.3295
+Saved trained policy to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed2.jld2
+[train:nonlinear] TRAIN_SEED=3
+iter: 0, return: 0.1248, entropy: 1.4189
+iter: 1, return: 0.1394, entropy: 1.4150
+iter: 2, return: 0.2552, entropy: 1.4115
+iter: 3, return: 0.2531, entropy: 1.4079
+iter: 4, return: 0.6916, entropy: 1.4039
+iter: 5, return: 1.0600, entropy: 1.3999
+iter: 6, return: 1.6508, entropy: 1.3964
+iter: 7, return: 1.7445, entropy: 1.3932
+iter: 8, return: 2.7256, entropy: 1.3905
+iter: 9, return: 2.8796, entropy: 1.3876
+iter: 10, return: 3.0060, entropy: 1.3846
+iter: 11, return: 3.2603, entropy: 1.3815
+iter: 12, return: 3.3066, entropy: 1.3781
+iter: 13, return: 3.4979, entropy: 1.3748
+iter: 14, return: 3.5726, entropy: 1.3713
+iter: 15, return: 3.6123, entropy: 1.3678
+iter: 16, return: 3.6527, entropy: 1.3642
+iter: 17, return: 3.5442, entropy: 1.3606
+iter: 18, return: 3.4869, entropy: 1.3574
+iter: 19, return: 3.6497, entropy: 1.3540
+iter: 20, return: 3.6875, entropy: 1.3512
+iter: 21, return: 3.6940, entropy: 1.3482
+iter: 22, return: 3.7172, entropy: 1.3449
+iter: 23, return: 3.7973, entropy: 1.3415
+iter: 24, return: 3.7437, entropy: 1.3384
+iter: 25, return: 3.5932, entropy: 1.3354
+Saved trained policy to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed3.jld2
+[train:nonlinear] TRAIN_SEED=4
+iter: 0, return: 0.1316, entropy: 1.4189
+iter: 1, return: 0.1440, entropy: 1.4149
+iter: 2, return: 0.2044, entropy: 1.4109
+iter: 3, return: 0.3891, entropy: 1.4069
+iter: 4, return: 0.8927, entropy: 1.4028
+iter: 5, return: 1.9209, entropy: 1.3990
+iter: 6, return: 2.4703, entropy: 1.3961
+iter: 7, return: 3.0470, entropy: 1.3931
+iter: 8, return: 3.1496, entropy: 1.3900
+iter: 9, return: 3.3487, entropy: 1.3863
+iter: 10, return: 3.2743, entropy: 1.3824
+iter: 11, return: 3.4887, entropy: 1.3784
+iter: 12, return: 3.3749, entropy: 1.3749
+iter: 13, return: 3.4874, entropy: 1.3715
+iter: 14, return: 3.4597, entropy: 1.3687
+iter: 15, return: 3.4935, entropy: 1.3658
+iter: 16, return: 3.5858, entropy: 1.3628
+iter: 17, return: 3.5477, entropy: 1.3597
+iter: 18, return: 3.6061, entropy: 1.3567
+iter: 19, return: 3.7178, entropy: 1.3540
+iter: 20, return: 3.6982, entropy: 1.3515
+iter: 21, return: 3.6024, entropy: 1.3490
+iter: 22, return: 3.6458, entropy: 1.3466
+iter: 23, return: 3.6077, entropy: 1.3441
+iter: 24, return: 3.6008, entropy: 1.3416
+iter: 25, return: 3.6820, entropy: 1.3391
+Saved trained policy to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed4.jld2
+[train:nonlinear] TRAIN_SEED=5
+iter: 0, return: 0.1376, entropy: 1.4189
+iter: 1, return: 0.1326, entropy: 1.4150
+iter: 2, return: 0.1432, entropy: 1.4120
+iter: 3, return: 0.1388, entropy: 1.4090
+iter: 4, return: 0.1765, entropy: 1.4056
+iter: 5, return: 0.3280, entropy: 1.4021
+iter: 6, return: 0.4311, entropy: 1.3986
+iter: 7, return: 0.8417, entropy: 1.3954
+iter: 8, return: 0.9174, entropy: 1.3922
+iter: 9, return: 1.7787, entropy: 1.3889
+iter: 10, return: 2.4012, entropy: 1.3855
+iter: 11, return: 2.7943, entropy: 1.3821
+iter: 12, return: 3.0190, entropy: 1.3783
+iter: 13, return: 3.2181, entropy: 1.3744
+iter: 14, return: 3.3914, entropy: 1.3709
+iter: 15, return: 3.3799, entropy: 1.3676
+iter: 16, return: 3.3774, entropy: 1.3643
+iter: 17, return: 3.4177, entropy: 1.3611
+iter: 18, return: 3.5352, entropy: 1.3581
+iter: 19, return: 3.5727, entropy: 1.3549
+iter: 20, return: 3.4855, entropy: 1.3518
+iter: 21, return: 3.6560, entropy: 1.3487
+iter: 22, return: 3.6527, entropy: 1.3457
+iter: 23, return: 3.6418, entropy: 1.3429
+iter: 24, return: 3.5469, entropy: 1.3405
+iter: 25, return: 3.6528, entropy: 1.3378
+Saved trained policy to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed5.jld2
+[eval:nonlinear] Running sPCE over training seeds
+train_seed: 1, sPCE: 3.8520 ± 0.4045
+train_seed: 2, sPCE: 3.7433 ± 0.3274
+train_seed: 3, sPCE: 3.4765 ± 0.3539
+train_seed: 4, sPCE: 3.5361 ± 0.4190
+train_seed: 5, sPCE: 3.7993 ± 0.4694
+Across training seeds sPCE: 3.6815 ± 0.1658
+Saved per-seed sPCE summary to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_spce_over_training_seeds.csv
+Pipeline complete.
+SBATCH script done!

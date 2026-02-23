@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#SBATCH --job-name=iosmc_nonlinear
-#SBATCH --output=/vols/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_nonlinear%A.out
-#SBATCH --error=/vols/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_nonlinear%A.err
+#SBATCH --job-name=nmc_doublepend
+#SBATCH --output=/vols/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/nmc_doublepend%A.out
+#SBATCH --error=/vols/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/nmc_doublepend%A.err
 #SBATCH --clusters=srf_cpu_01
 #SBATCH --partition=standard-cpu
 #SBATCH --nodelist=swan22.cpu.stats.ox.ac.uk
@@ -18,6 +18,6 @@ LOCAL="/data/localhost/not-backed-up/$USER/InsideOutSMC.jl"
 cd $LOCAL
 
 export JULIA_NUM_THREADS=$SLURM_CPUS_PER_TASK
-JULIA_LOAD_PATH=@:@stdlib scripts/run_5seed_pce_pipeline.sh nonlinear
+JULIA_LOAD_PATH=@:@stdlib scripts/run_5seed_nmc_eval.sh double_pendulum
 
 echo SBATCH script done!

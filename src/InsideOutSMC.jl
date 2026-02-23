@@ -147,6 +147,7 @@ export score_climbing_with_rao_blackwell_marginal_dynamics
 export markovian_score_climbing_with_rao_blackwell_marginal_dynamics
 
 export compute_sPCE
+export compute_NMC
 export compute_sPCE_for_myopic_adaptive_policy
 
 end

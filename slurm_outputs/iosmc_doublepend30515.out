@@ -1,0 +1,155 @@
+====================================================
+Experiment: double_pendulum
+Training seeds: 1,2,3,4,5
+Load path: @:@stdlib
+====================================================
+[train:double_pendulum] TRAIN_SEED=1
+iter: 0, return: 0.8309, entropy: 2.8379
+iter: 1, return: 0.9205, entropy: 2.8339
+iter: 2, return: 1.0537, entropy: 2.8300
+iter: 3, return: 1.4438, entropy: 2.8260
+iter: 4, return: 2.0162, entropy: 2.8221
+iter: 5, return: 2.7698, entropy: 2.8181
+iter: 6, return: 4.2698, entropy: 2.8143
+iter: 7, return: 4.7589, entropy: 2.8104
+iter: 8, return: 5.0115, entropy: 2.8066
+iter: 9, return: 5.8021, entropy: 2.8028
+iter: 10, return: 6.9321, entropy: 2.7989
+iter: 11, return: 7.6805, entropy: 2.7950
+iter: 12, return: 8.0053, entropy: 2.7914
+iter: 13, return: 8.1891, entropy: 2.7880
+iter: 14, return: 8.6783, entropy: 2.7848
+iter: 15, return: 9.1487, entropy: 2.7819
+iter: 16, return: 9.7368, entropy: 2.7790
+iter: 17, return: 9.8242, entropy: 2.7765
+iter: 18, return: 10.0149, entropy: 2.7742
+iter: 19, return: 10.0502, entropy: 2.7720
+iter: 20, return: 9.9152, entropy: 2.7707
+iter: 21, return: 10.2265, entropy: 2.7699
+iter: 22, return: 10.2334, entropy: 2.7698
+iter: 23, return: 10.3187, entropy: 2.7698
+iter: 24, return: 10.1239, entropy: 2.7691
+iter: 25, return: 10.3169, entropy: 2.7668
+Saved trained policy to ./experiments/double_pendulum/data/double_pendulum_ibis_csmc_ctl_seed1.jld2
+[train:double_pendulum] TRAIN_SEED=2
+iter: 0, return: 0.8446, entropy: 2.8379
+iter: 1, return: 0.9724, entropy: 2.8363
+iter: 2, return: 1.0389, entropy: 2.8336
+iter: 3, return: 1.1134, entropy: 2.8299
+iter: 4, return: 1.3496, entropy: 2.8259
+iter: 5, return: 1.6502, entropy: 2.8218
+iter: 6, return: 2.8593, entropy: 2.8183
+iter: 7, return: 4.4031, entropy: 2.8152
+iter: 8, return: 5.7562, entropy: 2.8123
+iter: 9, return: 5.5021, entropy: 2.8092
+iter: 10, return: 7.0397, entropy: 2.8057
+iter: 11, return: 8.7310, entropy: 2.8020
+iter: 12, return: 9.3984, entropy: 2.7985
+iter: 13, return: 9.7537, entropy: 2.7949
+iter: 14, return: 9.6166, entropy: 2.7914
+iter: 15, return: 9.7017, entropy: 2.7880
+iter: 16, return: 10.1537, entropy: 2.7845
+iter: 17, return: 10.4148, entropy: 2.7807
+iter: 18, return: 10.5038, entropy: 2.7771
+iter: 19, return: 10.5698, entropy: 2.7740
+iter: 20, return: 10.6515, entropy: 2.7713
+iter: 21, return: 10.7064, entropy: 2.7692
+iter: 22, return: 10.7739, entropy: 2.7674
+iter: 23, return: 10.7039, entropy: 2.7654
+iter: 24, return: 10.7085, entropy: 2.7634
+iter: 25, return: 10.8032, entropy: 2.7609
+Saved trained policy to ./experiments/double_pendulum/data/double_pendulum_ibis_csmc_ctl_seed2.jld2
+[train:double_pendulum] TRAIN_SEED=3
+iter: 0, return: 0.8157, entropy: 2.8379
+iter: 1, return: 1.0426, entropy: 2.8339
+iter: 2, return: 1.5136, entropy: 2.8300
+iter: 3, return: 2.1073, entropy: 2.8263
+iter: 4, return: 3.0973, entropy: 2.8227
+iter: 5, return: 4.6518, entropy: 2.8189
+iter: 6, return: 5.7296, entropy: 2.8151
+iter: 7, return: 6.7738, entropy: 2.8115
+iter: 8, return: 8.0304, entropy: 2.8084
+iter: 9, return: 8.2265, entropy: 2.8053
+iter: 10, return: 8.4217, entropy: 2.8020
+iter: 11, return: 9.4829, entropy: 2.7986
+iter: 12, return: 10.1848, entropy: 2.7954
+iter: 13, return: 10.6440, entropy: 2.7926
+iter: 14, return: 10.9914, entropy: 2.7900
+iter: 15, return: 10.9893, entropy: 2.7879
+iter: 16, return: 10.7486, entropy: 2.7861
+iter: 17, return: 11.0205, entropy: 2.7847
+iter: 18, return: 10.9844, entropy: 2.7834
+iter: 19, return: 11.0657, entropy: 2.7818
+iter: 20, return: 10.8733, entropy: 2.7796
+iter: 21, return: 11.0097, entropy: 2.7766
+iter: 22, return: 11.2379, entropy: 2.7730
+iter: 23, return: 11.2742, entropy: 2.7691
+iter: 24, return: 11.2170, entropy: 2.7650
+iter: 25, return: 11.2724, entropy: 2.7605
+Saved trained policy to ./experiments/double_pendulum/data/double_pendulum_ibis_csmc_ctl_seed3.jld2
+[train:double_pendulum] TRAIN_SEED=4
+iter: 0, return: 0.8746, entropy: 2.8379
+iter: 1, return: 1.0089, entropy: 2.8339
+iter: 2, return: 1.5651, entropy: 2.8301
+iter: 3, return: 1.2775, entropy: 2.8267
+iter: 4, return: 1.5101, entropy: 2.8234
+iter: 5, return: 2.3809, entropy: 2.8203
+iter: 6, return: 3.0701, entropy: 2.8170
+iter: 7, return: 3.1623, entropy: 2.8137
+iter: 8, return: 3.3445, entropy: 2.8102
+iter: 9, return: 5.7480, entropy: 2.8068
+iter: 10, return: 7.1439, entropy: 2.8033
+iter: 11, return: 7.0598, entropy: 2.7995
+iter: 12, return: 7.3401, entropy: 2.7961
+iter: 13, return: 7.9584, entropy: 2.7933
+iter: 14, return: 9.8095, entropy: 2.7905
+iter: 15, return: 10.2915, entropy: 2.7871
+iter: 16, return: 10.6002, entropy: 2.7838
+iter: 17, return: 10.8818, entropy: 2.7805
+iter: 18, return: 10.7112, entropy: 2.7779
+iter: 19, return: 10.9266, entropy: 2.7758
+iter: 20, return: 11.0021, entropy: 2.7743
+iter: 21, return: 11.1516, entropy: 2.7730
+iter: 22, return: 11.0477, entropy: 2.7712
+iter: 23, return: 11.1890, entropy: 2.7686
+iter: 24, return: 11.2071, entropy: 2.7649
+iter: 25, return: 11.1176, entropy: 2.7603
+Saved trained policy to ./experiments/double_pendulum/data/double_pendulum_ibis_csmc_ctl_seed4.jld2
+[train:double_pendulum] TRAIN_SEED=5
+iter: 0, return: 0.8111, entropy: 2.8379
+iter: 1, return: 0.9734, entropy: 2.8377
+iter: 2, return: 1.2743, entropy: 2.8360
+iter: 3, return: 2.0327, entropy: 2.8331
+iter: 4, return: 3.0472, entropy: 2.8300
+iter: 5, return: 3.8555, entropy: 2.8275
+iter: 6, return: 4.5506, entropy: 2.8258
+iter: 7, return: 5.1491, entropy: 2.8235
+iter: 8, return: 5.7424, entropy: 2.8206
+iter: 9, return: 6.3031, entropy: 2.8173
+iter: 10, return: 6.8727, entropy: 2.8141
+iter: 11, return: 7.4953, entropy: 2.8109
+iter: 12, return: 7.5169, entropy: 2.8077
+iter: 13, return: 8.1144, entropy: 2.8045
+iter: 14, return: 8.5293, entropy: 2.8012
+iter: 15, return: 8.6773, entropy: 2.7980
+iter: 16, return: 9.1072, entropy: 2.7952
+iter: 17, return: 9.0170, entropy: 2.7934
+iter: 18, return: 9.0653, entropy: 2.7929
+iter: 19, return: 9.1273, entropy: 2.7933
+iter: 20, return: 9.4508, entropy: 2.7937
+iter: 21, return: 9.2960, entropy: 2.7933
+iter: 22, return: 9.4330, entropy: 2.7913
+iter: 23, return: 9.4736, entropy: 2.7877
+iter: 24, return: 9.4321, entropy: 2.7834
+iter: 25, return: 9.7622, entropy: 2.7786
+Saved trained policy to ./experiments/double_pendulum/data/double_pendulum_ibis_csmc_ctl_seed5.jld2
+[eval:double_pendulum] Running sPCE over training seeds
+train_seed: 1, sPCE: 10.5555 ± 0.2861
+train_seed: 2, sPCE: 11.2400 ± 0.2601
+train_seed: 3, sPCE: 11.3574 ± 0.3563
+train_seed: 4, sPCE: 11.6839 ± 0.2395
+train_seed: 5, sPCE: 10.1610 ± 0.3072
+Across training seeds sPCE: 10.9995 ± 0.6234
+Saved per-seed sPCE summary to ./experiments/double_pendulum/data/double_pendulum_spce_over_training_seeds.csv
+Pipeline complete.
+SBATCH script done!

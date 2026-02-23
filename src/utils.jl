@@ -250,6 +250,70 @@ function compute_sPCE(
 end
 
 
+function compute_NMC(
+    closedloop::IBISClosedLoop,
+    param_prior::MultivariateDistribution,
+    init_state::Vector{Float64},
+    nb_steps::Int,
+    nb_outer_samples::Int,
+    nb_inner_samples::Int,
+)
+    xdim = closedloop.dyn.xdim
+    udim = closedloop.dyn.udim
+
+    # Generate outer and inner samples
+    outer_param_samples = rand(param_prior, nb_outer_samples)
+    inner_param_samples = rand(param_prior, nb_inner_samples, nb_outer_samples)
+
+    # Generate trajectories
+    trajectory_samples = Array{Float64,3}(undef, xdim+udim, nb_steps + 1, nb_outer_samples)
+    trajectory_samples[:, 1, :] .= init_state
+
+    @inbounds @views for t = 1:nb_steps
+        ibis_conditional_closedloop_sample!(
+            closedloop,
+            outer_param_samples,
+            view(trajectory_samples, :, t, :),
+            view(trajectory_samples, :, t+1, :)
+        )
+    end
+
+    # Compute the denominator of the integrand
+    scratch_matrix = zeros(xdim, nb_inner_samples)
+    trajectory_logpdf = zeros(nb_inner_samples, nb_outer_samples)
+    integrand = Vector{Float64}(undef, nb_outer_samples)
+
+    for n in 1:nb_outer_samples
+        regularizing_samples = reduce(hcat, inner_param_samples[:, n])
+        outer_trajectory_logpdf = 0.0
+        for t = 1:nb_steps
+            outer_trajectory_logpdf += ibis_conditional_dynamics_logpdf(
+                closedloop.dyn,
+                outer_param_samples[:, n],
+                trajectory_samples[1:xdim, t, n],        # state
+                trajectory_samples[xdim+1:end, t+1, n],  # action
+                trajectory_samples[1:xdim, t+1, n],      # next state
+            )
+
+            trajectory_logpdf[:, n] += ibis_conditional_dynamics_logpdf(
+                closedloop.dyn,
+                regularizing_samples,
+                trajectory_samples[1:xdim, t, n],        # state
+                trajectory_samples[xdim+1:end, t+1, n],  # action
+                trajectory_samples[1:xdim, t+1, n],      # next state
+                scratch_matrix
+            )
+        end
+        integrand[n] = (
+            outer_trajectory_logpdf
+            - logsumexp(trajectory_logpdf[:, n])
+            + log(nb_inner_samples)
+        )
+    end
+    return mean(integrand)
+end
+
+
 function policy_gradient_objective(
     samples::AbstractArray{Float64},
     closedloop::Union{ClosedLoop, IBISClosedLoop, RaoBlackwellClosedLoop},

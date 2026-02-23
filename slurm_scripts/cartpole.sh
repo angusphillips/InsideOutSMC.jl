@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #SBATCH --job-name=iosmc_cartpole
-#SBATCH --output=/vols/bitbucket/anphilli/policy_learning/slurm_outputs/iosmc_cartpole%A.out
-#SBATCH --error=/vols/bitbucket/anphilli/policy_learning/slurm_outputs/iosmc_cartpole%A.err
+#SBATCH --output=/vols/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_cartpole%A.out
+#SBATCH --error=/vols/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_cartpole%A.err
 #SBATCH --clusters=srf_cpu_01
 #SBATCH --partition=standard-cpu
 #SBATCH --nodelist=swan22.cpu.stats.ox.ac.uk
