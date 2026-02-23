@@ -278,23 +278,19 @@ function compute_NMC(
         )
     end
 
-    # Compute the denominator of the integrand
-    scratch_matrix = zeros(xdim, nb_inner_samples)
-    trajectory_logpdf = zeros(nb_inner_samples, nb_outer_samples)
+    # Compute the numerator/denominator of the integrand
+    # First sample corresponds to theta_0 (outer sample), remaining are inner samples.
+    # NMC excludes theta_0 from the inner expectation in the denominator.
+    scratch_matrix = zeros(xdim, nb_inner_samples + 1)
+    trajectory_logpdf = zeros(nb_inner_samples + 1, nb_outer_samples)
     integrand = Vector{Float64}(undef, nb_outer_samples)
 
     for n in 1:nb_outer_samples
-        regularizing_samples = reduce(hcat, inner_param_samples[:, n])
-        outer_trajectory_logpdf = 0.0
+        regularizing_samples = hcat(
+            outer_param_samples[:, n],
+            reduce(hcat, inner_param_samples[:, n])
+        )
         for t = 1:nb_steps
-            outer_trajectory_logpdf += ibis_conditional_dynamics_logpdf(
-                closedloop.dyn,
-                outer_param_samples[:, n],
-                trajectory_samples[1:xdim, t, n],        # state
-                trajectory_samples[xdim+1:end, t+1, n],  # action
-                trajectory_samples[1:xdim, t+1, n],      # next state
-            )
-
             trajectory_logpdf[:, n] += ibis_conditional_dynamics_logpdf(
                 closedloop.dyn,
                 regularizing_samples,
@@ -305,8 +301,8 @@ function compute_NMC(
             )
         end
         integrand[n] = (
-            outer_trajectory_logpdf
-            - logsumexp(trajectory_logpdf[:, n])
+            trajectory_logpdf[1, n]
+            - logsumexp(trajectory_logpdf[2:end, n])
             + log(nb_inner_samples)
         )
     end
