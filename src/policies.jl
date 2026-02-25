@@ -75,8 +75,14 @@ function policy_mean(
     z::AbstractVector{Float64}
 )
     feat = sp.feature_fn(z)
+    if ndims(feat) == 1
+        feat = reshape(feat, :, 1)
+    end
     hidden = sp.encoder_fn(feat)
     u = sp.mean_fn(hidden)
+    if ndims(u) == 2 && size(u, 2) == 1
+        u = vec(u)
+    end
     return sp.bijector(u)
 end
 
@@ -157,8 +163,14 @@ function policy_mean(
     z::AbstractVector{Float64}
 )
     feat = sp.feature_fn(z)
+    if ndims(feat) == 1
+        feat = reshape(feat, :, 1)
+    end
     hidden = sp.encoder_fn(feat)
     mean = sp.mean_fn(hidden)
+    if ndims(mean) == 2 && size(mean, 2) == 1
+        mean = vec(mean)
+    end
     return sp.bijector(mean)
 end
 
