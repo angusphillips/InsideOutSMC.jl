@@ -22,7 +22,6 @@ using .CartpoleEnvironment: ctl_feature_fn
 
 using JLD2
 using DelimitedFiles
-using Plots
 
 train_seed = parse(Int, get(ENV, "TRAIN_SEED", "1"))
 
@@ -50,8 +49,6 @@ for t = 1:nb_steps
     next_state = dynamics_sample(dynamics, state, action)
     trajectory[:, t+1] = vcat(next_state, action)
 end
-plot(trajectory')
-
 time_steps = 1:1:nb_steps+1
 writedlm(
     "./experiments/cartpole/data/cartpole_ibis_csmc_trajectory_seed$(train_seed).csv",

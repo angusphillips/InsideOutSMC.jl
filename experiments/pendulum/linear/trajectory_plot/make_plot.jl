@@ -22,7 +22,6 @@ using .PendulumEnvironment: ctl_feature_fn
 
 using JLD2
 using DelimitedFiles
-using Plots
 
 
 ibis_policy = load("./experiments/pendulum/linear/data/linear_pendulum_ibis_csmc_ctl.jld2")["ctl"]
@@ -56,8 +55,6 @@ for t = 1:nb_steps
     next_state = dynamics_sample(dynamics, state, action)
     trajectory[:, t+1] = vcat(next_state, action)
 end
-plot(trajectory')
-
 time_steps = 1:1:nb_steps+1
 writedlm(
     "./experiments/pendulum/linear/data/linear_pendulum_ibis_csmc_trajectory.csv",
