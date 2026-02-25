@@ -24,8 +24,9 @@ using JLD2
 using DelimitedFiles
 using Plots
 
+train_seed = parse(Int, get(ENV, "TRAIN_SEED", "1"))
 
-ibis_policy = load("./experiments/double_pendulum/data/double_pendulum_ibis_csmc_ctl.jld2")["ctl"]
+ibis_policy = load("./experiments/double_pendulum/data/double_pendulum_ibis_csmc_ctl_seed$(train_seed).jld2")["ctl"]
 Flux.reset!(ibis_policy)
 
 true_params = [1.0, 1.0, 1.0, 1.0]
@@ -53,6 +54,13 @@ plot(trajectory')
 
 time_steps = 1:1:nb_steps+1
 writedlm(
-    "./experiments/double_pendulum/data/double_pendulum_ibis_csmc_trajectory.csv",
+    "./experiments/double_pendulum/data/double_pendulum_ibis_csmc_trajectory_seed$(train_seed).csv",
     hcat(time_steps, trajectory'), ','
 )
+
+if train_seed == 1
+    writedlm(
+        "./experiments/double_pendulum/data/double_pendulum_ibis_csmc_trajectory.csv",
+        hcat(time_steps, trajectory'), ','
+    )
+end
