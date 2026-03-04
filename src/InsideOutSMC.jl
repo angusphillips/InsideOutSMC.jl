@@ -113,6 +113,10 @@ export rao_blackwell_marginal_adaptive_loop_sample
 
 export ibis_step!, ibis!
 export batch_ibis_step!, batch_ibis!
+export reset_ibis_profiling!
+export set_ibis_profiling_active!
+export set_ibis_profiling_phase!
+export get_ibis_profiling_stats
 export smc_step!, smc
 export csmc_step!, csmc
 

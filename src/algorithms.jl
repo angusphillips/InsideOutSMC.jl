@@ -217,6 +217,8 @@ function score_climbing_with_ibis_marginal_dynamics(
 ) where {T<:Function}
 
     # sampling step
+    set_ibis_profiling_active!(true)
+    set_ibis_profiling_phase!(:score_climbing_init_smc)
     Flux.reset!(learner.ctl)
     state_struct, _ = smc_with_ibis_marginal_dynamics(
         nb_steps,
@@ -235,6 +237,8 @@ function score_climbing_with_ibis_marginal_dynamics(
     samples = state_struct.trajectories[:, :, idx]
 
     # evaluation step
+    set_ibis_profiling_active!(false)
+    set_ibis_profiling_phase!(:evaluation)
     Flux.reset!(evaluator.ctl)
     state_struct, _ = smc_with_ibis_marginal_dynamics(
         nb_steps,
@@ -276,6 +280,8 @@ function score_climbing_with_ibis_marginal_dynamics(
         end
 
         # sampling step
+        set_ibis_profiling_active!(true)
+        set_ibis_profiling_phase!(:score_climbing_loop_smc)
         Flux.reset!(learner.ctl)
         state_struct, _ = smc_with_ibis_marginal_dynamics(
             nb_steps,
@@ -294,6 +300,8 @@ function score_climbing_with_ibis_marginal_dynamics(
         samples = state_struct.trajectories[:, :, idx]
 
         # evaluation step
+        set_ibis_profiling_active!(false)
+        set_ibis_profiling_phase!(:evaluation)
         Flux.reset!(evaluator.ctl)
         state_struct, _ = smc_with_ibis_marginal_dynamics(
             nb_steps,
@@ -346,6 +354,8 @@ function markovian_score_climbing_with_ibis_marginal_dynamics(
     all_returns = []
 
     # sampling step
+    set_ibis_profiling_active!(true)
+    set_ibis_profiling_phase!(:markovian_init_csmc)
     Flux.reset!(learner.ctl)
     state_struct, param_struct = csmc_with_ibis_marginal_dynamics(
         nb_steps,
@@ -372,6 +382,7 @@ function markovian_score_climbing_with_ibis_marginal_dynamics(
 
     for _ in 1:nb_csmc_moves - 1
         Flux.reset!(learner.ctl)
+        set_ibis_profiling_phase!(:markovian_init_csmc)
         state_struct, param_struct = csmc_with_ibis_marginal_dynamics(
             nb_steps,
             nb_trajectories,
@@ -399,6 +410,8 @@ function markovian_score_climbing_with_ibis_marginal_dynamics(
     samples = state_struct.trajectories[:, :, idx]
 
     # evaluation step
+    set_ibis_profiling_active!(false)
+    set_ibis_profiling_phase!(:evaluation)
     Flux.reset!(evaluator.ctl)
     state_struct, _ = smc_with_ibis_marginal_dynamics(
         nb_steps,
@@ -441,6 +454,8 @@ function markovian_score_climbing_with_ibis_marginal_dynamics(
         end
 
         # sampling step
+        set_ibis_profiling_active!(true)
+        set_ibis_profiling_phase!(:markovian_loop_csmc)
         Flux.reset!(learner.ctl)
         state_struct, param_struct = csmc_with_ibis_marginal_dynamics(
             nb_steps,
@@ -467,6 +482,7 @@ function markovian_score_climbing_with_ibis_marginal_dynamics(
 
         for _ in 1:nb_csmc_moves - 1
             Flux.reset!(learner.ctl)
+            set_ibis_profiling_phase!(:markovian_loop_csmc)
             state_struct, param_struct = csmc_with_ibis_marginal_dynamics(
                 nb_steps,
                 nb_trajectories,
@@ -494,6 +510,8 @@ function markovian_score_climbing_with_ibis_marginal_dynamics(
         samples = state_struct.trajectories[:, :, idx]
 
         # evaluation step
+        set_ibis_profiling_active!(false)
+        set_ibis_profiling_phase!(:evaluation)
         Flux.reset!(evaluator.ctl)
         state_struct, _ = smc_with_ibis_marginal_dynamics(
             nb_steps,

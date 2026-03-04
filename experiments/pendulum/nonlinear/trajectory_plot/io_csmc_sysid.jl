@@ -87,16 +87,20 @@ action_penalty = 0.0
 slew_rate_penalty = 0.1
 tempering = 1.0
 
-nb_steps = 50
-nb_trajectories = 256
-nb_particles = 128
+nb_steps = parse(Int, get(ENV, "NB_STEPS", "50"))
+nb_trajectories = parse(Int, get(ENV, "NB_TRAJECTORIES", "256"))
+nb_particles = parse(Int, get(ENV, "NB_PARTICLES", "128"))
 
-nb_ibis_moves = 3
-nb_csmc_moves = 1
+nb_ibis_moves = parse(Int, get(ENV, "NB_IBIS_MOVES", "3"))
+nb_csmc_moves = parse(Int, get(ENV, "NB_CSMC_MOVES", "1"))
 
-nb_iter = 25
+nb_iter = parse(Int, get(ENV, "NB_ITER", "25"))
 opt_state = Flux.setup(Flux.Optimise.Adam(1e-3), learner_loop)
-batch_size = 64
+batch_size = parse(Int, get(ENV, "BATCH_SIZE", "64"))
+
+reset_ibis_profiling!()
+set_ibis_profiling_active!(true)
+set_ibis_profiling_phase!(:reference_smc)
 
 Flux.reset!(learner_loop.ctl)
 state_struct, param_struct = smc_with_ibis_marginal_dynamics(
@@ -141,6 +145,64 @@ learner_loop, _ = markovian_score_climbing_with_ibis_marginal_dynamics(
     nb_csmc_moves,
     true
 )
+
+set_ibis_profiling_active!(false)
+set_ibis_profiling_phase!(:done)
+
+ibis_stats = get_ibis_profiling_stats()
+
+function phase_total_ibis(stats, phase)
+    return get(stats.reweight_likelihood_evals_by_phase, phase, 0) + get(stats.move_likelihood_evals_by_phase, phase, 0)
+end
+
+function phase_total(stats, phase)
+    return phase_total_ibis(stats, phase) + get(stats.trajectory_reweight_likelihood_evals_by_phase, phase, 0)
+end
+
+reference_total = phase_total(ibis_stats, :reference_smc)
+markovian_init_total = phase_total(ibis_stats, :markovian_init_csmc)
+markovian_loop_total = phase_total(ibis_stats, :markovian_loop_csmc)
+csmc_total = markovian_init_total + markovian_loop_total
+training_total = ibis_stats.total_likelihood_evals
+ibis_total = ibis_stats.ibis_total_likelihood_evals
+trajectory_reweight_total = ibis_stats.trajectory_reweight_likelihood_evals
+
+check_mechanism_partition = training_total == ibis_total + trajectory_reweight_total
+check_ibis_partition = ibis_total == ibis_stats.reweight_likelihood_evals + ibis_stats.move_likelihood_evals
+check_phase_partition = training_total == reference_total + markovian_init_total + markovian_loop_total
+check_csmc_partition = csmc_total == markovian_init_total + markovian_loop_total
+
+println("\n=== IBIS training profiling (evaluation loops excluded) ===")
+println("reweight calls: ", ibis_stats.reweight_calls)
+println("move triggers total: ", ibis_stats.move_triggers_total)
+println("move kernel calls: ", ibis_stats.move_kernel_calls)
+println("trajectory reweight calls: ", ibis_stats.trajectory_reweight_calls)
+println("likelihood evals (IBIS reweight): ", ibis_stats.reweight_likelihood_evals)
+println("likelihood evals (IBIS move): ", ibis_stats.move_likelihood_evals)
+println("likelihood evals (trajectory reweight SMC/CSMC): ", trajectory_reweight_total)
+println("likelihood evals (IBIS total): ", ibis_total)
+println("likelihood evals (total training): ", training_total)
+println("likelihood evals (reference SMC): ", reference_total)
+println("likelihood evals (markovian init CSMC): ", markovian_init_total)
+println("likelihood evals (markovian loop CSMC): ", markovian_loop_total)
+println("likelihood evals (CSMC training calls total): ", csmc_total)
+println("sanity checks: mechanism_partition=", check_mechanism_partition, ", ibis_partition=", check_ibis_partition, ", phase_partition=", check_phase_partition, ", csmc_partition=", check_csmc_partition)
+println("phase totals:")
+for phase in sort!(collect(keys(merge(
+    ibis_stats.reweight_likelihood_evals_by_phase,
+    ibis_stats.move_likelihood_evals_by_phase,
+    ibis_stats.trajectory_reweight_likelihood_evals_by_phase,
+))); by=string)
+    reweight_phase = get(ibis_stats.reweight_likelihood_evals_by_phase, phase, 0)
+    move_phase = get(ibis_stats.move_likelihood_evals_by_phase, phase, 0)
+    trajectory_reweight_phase = get(ibis_stats.trajectory_reweight_likelihood_evals_by_phase, phase, 0)
+    total_phase = reweight_phase + move_phase + trajectory_reweight_phase
+    println("  ", phase, " => total=", total_phase, ", ibis_reweight=", reweight_phase, ", ibis_move=", move_phase, ", trajectory_reweight=", trajectory_reweight_phase)
+end
+println("move-trigger counts by time index t:")
+for (t, c) in zip(ibis_stats.move_trigger_times, ibis_stats.move_trigger_counts)
+    println("  t=", t, " => ", c)
+end
 
 seed_output_path = "./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed$(train_seed).jld2"
 jldsave(seed_output_path; evaluator_loop.ctl)

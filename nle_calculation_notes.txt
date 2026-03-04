@@ -1,0 +1,4 @@
+In IBIS step we've added a counter on number of reweight calculations, a counter on the number of move triggers, and a counter on the number of likelihood evals during moves.
+This is all within IBIS, so we will capture anything that happens within an IBIS step from this. 
+IBIS is called with CSMC, but there are additional likelihood evals that happen in CSMC...
+These are due to the reweighting of trajectories themselves. These have now been added to the count as nb_traj * nb_part evals and nb_traj calls.

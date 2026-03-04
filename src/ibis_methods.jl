@@ -2,6 +2,218 @@ using Random
 using Distributions
 
 
+mutable struct IBISProfilingStats
+    active::Bool
+    phase::Symbol
+    reweight_likelihood_evals::Int
+    move_likelihood_evals::Int
+    trajectory_reweight_likelihood_evals::Int
+    reweight_calls::Int
+    move_kernel_calls::Int
+    trajectory_reweight_calls::Int
+    move_triggers_total::Int
+    move_triggers_by_t::Dict{Int,Int}
+    reweight_likelihood_evals_by_phase::Dict{Symbol,Int}
+    move_likelihood_evals_by_phase::Dict{Symbol,Int}
+    trajectory_reweight_likelihood_evals_by_phase::Dict{Symbol,Int}
+    reweight_calls_by_phase::Dict{Symbol,Int}
+    move_kernel_calls_by_phase::Dict{Symbol,Int}
+    trajectory_reweight_calls_by_phase::Dict{Symbol,Int}
+    move_triggers_by_t_phase::Dict{Symbol,Dict{Int,Int}}
+end
+
+
+const _ibis_profile_lock = ReentrantLock()
+const _ibis_profile_stats = Ref(
+    IBISProfilingStats(
+        false,
+        :unspecified,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        Dict{Int,Int}(),
+        Dict{Symbol,Int}(),
+        Dict{Symbol,Int}(),
+        Dict{Symbol,Int}(),
+        Dict{Symbol,Int}(),
+        Dict{Symbol,Int}(),
+        Dict{Symbol,Int}(),
+        Dict{Symbol,Dict{Int,Int}}(),
+    )
+)
+
+
+function reset_ibis_profiling!()
+    lock(_ibis_profile_lock)
+    try
+        stats = _ibis_profile_stats[]
+        stats.active = false
+        stats.phase = :unspecified
+        stats.reweight_likelihood_evals = 0
+        stats.move_likelihood_evals = 0
+        stats.trajectory_reweight_likelihood_evals = 0
+        stats.reweight_calls = 0
+        stats.move_kernel_calls = 0
+        stats.trajectory_reweight_calls = 0
+        stats.move_triggers_total = 0
+        empty!(stats.move_triggers_by_t)
+        empty!(stats.reweight_likelihood_evals_by_phase)
+        empty!(stats.move_likelihood_evals_by_phase)
+        empty!(stats.trajectory_reweight_likelihood_evals_by_phase)
+        empty!(stats.reweight_calls_by_phase)
+        empty!(stats.move_kernel_calls_by_phase)
+        empty!(stats.trajectory_reweight_calls_by_phase)
+        empty!(stats.move_triggers_by_t_phase)
+    finally
+        unlock(_ibis_profile_lock)
+    end
+    return nothing
+end
+
+
+function set_ibis_profiling_active!(active::Bool)
+    lock(_ibis_profile_lock)
+    try
+        _ibis_profile_stats[].active = active
+    finally
+        unlock(_ibis_profile_lock)
+    end
+    return nothing
+end
+
+
+function set_ibis_profiling_phase!(phase::Symbol)
+    lock(_ibis_profile_lock)
+    try
+        _ibis_profile_stats[].phase = phase
+    finally
+        unlock(_ibis_profile_lock)
+    end
+    return nothing
+end
+
+
+function get_ibis_profiling_stats()
+    lock(_ibis_profile_lock)
+    try
+        stats = _ibis_profile_stats[]
+        move_triggers_by_t = copy(stats.move_triggers_by_t)
+        move_trigger_times = sort(collect(keys(move_triggers_by_t)))
+        move_trigger_counts = [move_triggers_by_t[t] for t in move_trigger_times]
+        ibis_total_likelihood_evals = stats.reweight_likelihood_evals + stats.move_likelihood_evals
+        total_likelihood_evals = ibis_total_likelihood_evals + stats.trajectory_reweight_likelihood_evals
+
+        return (
+            active=stats.active,
+            reweight_calls=stats.reweight_calls,
+            move_kernel_calls=stats.move_kernel_calls,
+            trajectory_reweight_calls=stats.trajectory_reweight_calls,
+            move_triggers_total=stats.move_triggers_total,
+            move_triggers_by_t=move_triggers_by_t,
+            move_trigger_times=move_trigger_times,
+            move_trigger_counts=move_trigger_counts,
+            reweight_likelihood_evals=stats.reweight_likelihood_evals,
+            move_likelihood_evals=stats.move_likelihood_evals,
+            ibis_total_likelihood_evals=ibis_total_likelihood_evals,
+            trajectory_reweight_likelihood_evals=stats.trajectory_reweight_likelihood_evals,
+            total_likelihood_evals=total_likelihood_evals,
+            phase=stats.phase,
+            reweight_likelihood_evals_by_phase=copy(stats.reweight_likelihood_evals_by_phase),
+            move_likelihood_evals_by_phase=copy(stats.move_likelihood_evals_by_phase),
+            trajectory_reweight_likelihood_evals_by_phase=copy(stats.trajectory_reweight_likelihood_evals_by_phase),
+            reweight_calls_by_phase=copy(stats.reweight_calls_by_phase),
+            move_kernel_calls_by_phase=copy(stats.move_kernel_calls_by_phase),
+            trajectory_reweight_calls_by_phase=copy(stats.trajectory_reweight_calls_by_phase),
+            move_triggers_by_t_phase=Dict(
+                phase => copy(counts)
+                for (phase, counts) in stats.move_triggers_by_t_phase
+            ),
+        )
+    finally
+        unlock(_ibis_profile_lock)
+    end
+end
+
+
+function _record_reweight_likelihood_evals!(nb_particles::Int)
+    lock(_ibis_profile_lock)
+    try
+        stats = _ibis_profile_stats[]
+        if stats.active
+            phase = stats.phase
+            stats.reweight_calls += 1
+            stats.reweight_likelihood_evals += nb_particles
+            stats.reweight_calls_by_phase[phase] = get(stats.reweight_calls_by_phase, phase, 0) + 1
+            stats.reweight_likelihood_evals_by_phase[phase] = get(stats.reweight_likelihood_evals_by_phase, phase, 0) + nb_particles
+        end
+    finally
+        unlock(_ibis_profile_lock)
+    end
+    return nothing
+end
+
+
+function _record_move_trigger!(time_idx::Int)
+    lock(_ibis_profile_lock)
+    try
+        stats = _ibis_profile_stats[]
+        if stats.active
+            stats.move_triggers_total += 1
+            stats.move_triggers_by_t[time_idx] = get(stats.move_triggers_by_t, time_idx, 0) + 1
+            phase = stats.phase
+            if !haskey(stats.move_triggers_by_t_phase, phase)
+                stats.move_triggers_by_t_phase[phase] = Dict{Int,Int}()
+            end
+            phase_dict = stats.move_triggers_by_t_phase[phase]
+            phase_dict[time_idx] = get(phase_dict, time_idx, 0) + 1
+        end
+    finally
+        unlock(_ibis_profile_lock)
+    end
+    return nothing
+end
+
+
+function _record_move_likelihood_evals!(history_steps::Int, nb_particles::Int)
+    lock(_ibis_profile_lock)
+    try
+        stats = _ibis_profile_stats[]
+        if stats.active
+            stats.move_kernel_calls += 1
+            stats.move_likelihood_evals += history_steps * nb_particles
+            phase = stats.phase
+            stats.move_kernel_calls_by_phase[phase] = get(stats.move_kernel_calls_by_phase, phase, 0) + 1
+            stats.move_likelihood_evals_by_phase[phase] = get(stats.move_likelihood_evals_by_phase, phase, 0) + history_steps * nb_particles
+        end
+    finally
+        unlock(_ibis_profile_lock)
+    end
+    return nothing
+end
+
+
+function _record_trajectory_reweight_likelihood_evals!(nb_likelihood_evals::Int, nb_calls::Int)
+    lock(_ibis_profile_lock)
+    try
+        stats = _ibis_profile_stats[]
+        if stats.active
+            phase = stats.phase
+            stats.trajectory_reweight_calls += nb_calls
+            stats.trajectory_reweight_likelihood_evals += nb_likelihood_evals
+            stats.trajectory_reweight_calls_by_phase[phase] = get(stats.trajectory_reweight_calls_by_phase, phase, 0) + nb_calls
+            stats.trajectory_reweight_likelihood_evals_by_phase[phase] = get(stats.trajectory_reweight_likelihood_evals_by_phase, phase, 0) + nb_likelihood_evals
+        end
+    finally
+        unlock(_ibis_profile_lock)
+    end
+    return nothing
+end
+
+
 function batch_ibis!(
     trajectories::AbstractArray{Float64,3},
     dynamics::IBISDynamics,
@@ -97,6 +309,7 @@ function ibis_step!(
     # 2. Resample-move if necessary
     weights = @view param_struct.weights[time_idx+1, :]
     if effective_sample_size(weights) < 0.75 * param_struct.nb_particles
+        _record_move_trigger!(time_idx)
         resample_params!(
             time_idx,
             param_struct
@@ -131,6 +344,7 @@ function reweight_params!(
         trajectory[begin:xdim, time_idx+1],    # next_state
         param_struct.scratch
     )  # Assumes parameter-independent noise
+    _record_reweight_likelihood_evals!(param_struct.nb_particles)
 
     # Copy over particles and weights to next time step
     param_struct.particles[:, time_idx+1, :] = param_struct.particles[:, time_idx, :]
@@ -231,6 +445,8 @@ function accumulate_likelihood(
 
     xdim = dynamics.xdim
     _, nb_steps_p_1 = size(history)
+    nb_particles = size(particles, 2)
+    _record_move_likelihood_evals!(nb_steps_p_1 - 1, nb_particles)
 
     @views @inbounds for t in 1:nb_steps_p_1 - 1
         lls += ibis_conditional_dynamics_logpdf(

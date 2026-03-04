@@ -177,6 +177,10 @@ function smc_step_with_ibis_marginal_dynamics!(
     )
 
     # Weights
+    _record_trajectory_reweight_likelihood_evals!(
+        state_struct.nb_trajectories * param_struct.nb_particles,
+        state_struct.nb_trajectories
+    )
     @views @inbounds for n = 1:state_struct.nb_trajectories
         u = state_struct.trajectories[closedloop.dyn.xdim+1:end, time_idx+1, n]
         up = state_struct.trajectories[closedloop.dyn.xdim+1:end, time_idx, n]
@@ -258,6 +262,10 @@ function csmc_step_with_ibis_marginal_dynamics!(
     )
     state_struct.trajectories[:, time_idx+1, 1] .= reference.trajectory[:, time_idx+1]
 
+    _record_trajectory_reweight_likelihood_evals!(
+        state_struct.nb_trajectories * param_struct.nb_particles,
+        state_struct.nb_trajectories
+    )
     @views @inbounds for n = 1:state_struct.nb_trajectories
         xdim = closedloop.dyn.xdim
         u = state_struct.trajectories[xdim+1:end, time_idx+1, n]
