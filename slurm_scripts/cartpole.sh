@@ -18,6 +18,6 @@ LOCAL="/data/localhost/not-backed-up/anphilli/InsideOutSMC.jl"
 cd $LOCAL
 
 export JULIA_NUM_THREADS=$SLURM_CPUS_PER_TASK
-JULIA_LOAD_PATH=@:@stdlib scripts/run_5seed_pce_pipeline.sh cartpole
+JULIA_LOAD_PATH=@:@stdlib scripts/run_5seed_full_pipeline.sh cartpole
 
 echo SBATCH script done!

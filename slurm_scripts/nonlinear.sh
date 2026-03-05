@@ -18,6 +18,6 @@ LOCAL="/data/localhost/not-backed-up/$USER/InsideOutSMC.jl"
 cd $LOCAL
 
 export JULIA_NUM_THREADS=$SLURM_CPUS_PER_TASK
-JULIA_LOAD_PATH=@:@stdlib scripts/run_5seed_pce_pipeline.sh nonlinear
+JULIA_LOAD_PATH=@:@stdlib scripts/run_5seed_full_pipeline.sh nonlinear
 
 echo SBATCH script done!
