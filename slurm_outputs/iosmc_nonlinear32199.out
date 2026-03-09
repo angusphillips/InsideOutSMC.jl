@@ -1,0 +1,545 @@
+====================================================
+Running full 5-seed pipeline
+Experiment: nonlinear
+Seeds: 1,2,3,4,5
+Load path: @:@stdlib
+====================================================
+[1/3] Train policies + run sPCE evaluation
+====================================================
+Experiment: nonlinear
+Training seeds: 1,2,3,4,5
+Load path: @:@stdlib
+====================================================
+[train:nonlinear] TRAIN_SEED=1
+iter: 0, return: 0.1289, entropy: 1.4189
+iter: 1, return: 0.1388, entropy: 1.4151
+iter: 2, return: 0.1367, entropy: 1.4116
+iter: 3, return: 0.1294, entropy: 1.4095
+iter: 4, return: 0.1861, entropy: 1.4078
+iter: 5, return: 0.1605, entropy: 1.4054
+iter: 6, return: 0.2064, entropy: 1.4019
+iter: 7, return: 0.2275, entropy: 1.3983
+iter: 8, return: 0.2884, entropy: 1.3943
+iter: 9, return: 0.4497, entropy: 1.3906
+iter: 10, return: 0.5867, entropy: 1.3868
+iter: 11, return: 0.7940, entropy: 1.3836
+iter: 12, return: 1.0466, entropy: 1.3809
+iter: 13, return: 1.7589, entropy: 1.3797
+iter: 14, return: 2.7379, entropy: 1.3789
+iter: 15, return: 2.7767, entropy: 1.3774
+iter: 16, return: 3.0675, entropy: 1.3752
+iter: 17, return: 2.8176, entropy: 1.3733
+iter: 18, return: 3.3539, entropy: 1.3715
+iter: 19, return: 3.3572, entropy: 1.3702
+iter: 20, return: 3.5291, entropy: 1.3691
+iter: 21, return: 3.5649, entropy: 1.3682
+iter: 22, return: 3.6194, entropy: 1.3669
+iter: 23, return: 3.6154, entropy: 1.3658
+iter: 24, return: 3.6876, entropy: 1.3651
+iter: 25, return: 3.6582, entropy: 1.3640
+
+=== IBIS training profiling (evaluation loops excluded) ===
+reweight calls: 344300
+move triggers total: 59208
+move kernel calls: 177624
+trajectory reweight calls: 345600
+likelihood evals (IBIS reweight): 44070400
+likelihood evals (IBIS move): 491011584
+likelihood evals (trajectory reweight SMC/CSMC): 44236800
+likelihood evals (IBIS total): 535081984
+likelihood evals (total training): 579318784
+likelihood evals (reference SMC): 17385728
+likelihood evals (markovian init CSMC): 17377792
+likelihood evals (markovian loop CSMC): 544555264
+likelihood evals (CSMC training calls total): 561933056
+sanity checks: mechanism_partition=true, ibis_partition=true, phase_partition=true, csmc_partition=true
+phase totals:
+  markovian_init_csmc => total=17377792, ibis_reweight=1632000, ibis_move=14107392, trajectory_reweight=1638400
+  markovian_loop_csmc => total=544555264, ibis_reweight=40800000, ibis_move=462795264, trajectory_reweight=40960000
+  reference_smc => total=17385728, ibis_reweight=1638400, ibis_move=14108928, trajectory_reweight=1638400
+move-trigger counts by time index t:
+  t=1 => 3079
+  t=2 => 2620
+  t=3 => 2129
+  t=4 => 1755
+  t=5 => 1622
+  t=6 => 1496
+  t=7 => 1380
+  t=8 => 1299
+  t=9 => 1300
+  t=10 => 1268
+  t=11 => 1290
+  t=12 => 1224
+  t=13 => 1278
+  t=14 => 1251
+  t=15 => 1368
+  t=16 => 1338
+  t=17 => 1306
+  t=18 => 1239
+  t=19 => 1183
+  t=20 => 1068
+  t=21 => 991
+  t=22 => 974
+  t=23 => 931
+  t=24 => 940
+  t=25 => 950
+  t=26 => 1027
+  t=27 => 1071
+  t=28 => 1086
+  t=29 => 1094
+  t=30 => 1168
+  t=31 => 1135
+  t=32 => 1158
+  t=33 => 1109
+  t=34 => 1039
+  t=35 => 1088
+  t=36 => 982
+  t=37 => 886
+  t=38 => 833
+  t=39 => 829
+  t=40 => 801
+  t=41 => 818
+  t=42 => 820
+  t=43 => 822
+  t=44 => 840
+  t=45 => 866
+  t=46 => 943
+  t=47 => 894
+  t=48 => 912
+  t=49 => 827
+  t=50 => 881
+Saved trained policy to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed1.jld2
+[train:nonlinear] TRAIN_SEED=2
+iter: 0, return: 0.1364, entropy: 1.4189
+iter: 1, return: 0.1659, entropy: 1.4153
+iter: 2, return: 0.2135, entropy: 1.4117
+iter: 3, return: 0.2235, entropy: 1.4091
+iter: 4, return: 0.2126, entropy: 1.4066
+iter: 5, return: 0.3230, entropy: 1.4041
+iter: 6, return: 0.3417, entropy: 1.4014
+iter: 7, return: 0.5743, entropy: 1.3985
+iter: 8, return: 0.9905, entropy: 1.3962
+iter: 9, return: 1.2962, entropy: 1.3935
+iter: 10, return: 2.0129, entropy: 1.3904
+iter: 11, return: 2.7520, entropy: 1.3874
+iter: 12, return: 2.9094, entropy: 1.3843
+iter: 13, return: 3.2006, entropy: 1.3815
+iter: 14, return: 3.2424, entropy: 1.3797
+iter: 15, return: 3.2987, entropy: 1.3780
+iter: 16, return: 3.1346, entropy: 1.3757
+iter: 17, return: 3.2117, entropy: 1.3739
+iter: 18, return: 3.3570, entropy: 1.3717
+iter: 19, return: 3.4418, entropy: 1.3690
+iter: 20, return: 3.5169, entropy: 1.3662
+iter: 21, return: 3.4834, entropy: 1.3625
+iter: 22, return: 3.4473, entropy: 1.3589
+iter: 23, return: 3.3816, entropy: 1.3555
+iter: 24, return: 3.6102, entropy: 1.3521
+iter: 25, return: 3.5041, entropy: 1.3488
+
+=== IBIS training profiling (evaluation loops excluded) ===
+reweight calls: 344300
+move triggers total: 61713
+move kernel calls: 185139
+trajectory reweight calls: 345600
+likelihood evals (IBIS reweight): 44070400
+likelihood evals (IBIS move): 518072064
+likelihood evals (trajectory reweight SMC/CSMC): 44236800
+likelihood evals (IBIS total): 562142464
+likelihood evals (total training): 606379264
+likelihood evals (reference SMC): 17495552
+likelihood evals (markovian init CSMC): 17830912
+likelihood evals (markovian loop CSMC): 571052800
+likelihood evals (CSMC training calls total): 588883712
+sanity checks: mechanism_partition=true, ibis_partition=true, phase_partition=true, csmc_partition=true
+phase totals:
+  markovian_init_csmc => total=17830912, ibis_reweight=1632000, ibis_move=14560512, trajectory_reweight=1638400
+  markovian_loop_csmc => total=571052800, ibis_reweight=40800000, ibis_move=489292800, trajectory_reweight=40960000
+  reference_smc => total=17495552, ibis_reweight=1638400, ibis_move=14218752, trajectory_reweight=1638400
+move-trigger counts by time index t:
+  t=1 => 3066
+  t=2 => 2660
+  t=3 => 2148
+  t=4 => 1776
+  t=5 => 1595
+  t=6 => 1589
+  t=7 => 1377
+  t=8 => 1302
+  t=9 => 1272
+  t=10 => 1235
+  t=11 => 1279
+  t=12 => 1292
+  t=13 => 1342
+  t=14 => 1372
+  t=15 => 1440
+  t=16 => 1420
+  t=17 => 1463
+  t=18 => 1339
+  t=19 => 1234
+  t=20 => 1119
+  t=21 => 1078
+  t=22 => 990
+  t=23 => 988
+  t=24 => 959
+  t=25 => 991
+  t=26 => 1069
+  t=27 => 1180
+  t=28 => 1162
+  t=29 => 1226
+  t=30 => 1308
+  t=31 => 1291
+  t=32 => 1238
+  t=33 => 1201
+  t=34 => 1127
+  t=35 => 1014
+  t=36 => 963
+  t=37 => 892
+  t=38 => 874
+  t=39 => 794
+  t=40 => 775
+  t=41 => 817
+  t=42 => 894
+  t=43 => 942
+  t=44 => 906
+  t=45 => 954
+  t=46 => 991
+  t=47 => 972
+  t=48 => 929
+  t=49 => 948
+  t=50 => 920
+Saved trained policy to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed2.jld2
+[train:nonlinear] TRAIN_SEED=3
+iter: 0, return: 0.1314, entropy: 1.4189
+iter: 1, return: 0.1294, entropy: 1.4150
+iter: 2, return: 0.1348, entropy: 1.4116
+iter: 3, return: 0.1569, entropy: 1.4083
+iter: 4, return: 0.1605, entropy: 1.4048
+iter: 5, return: 0.1775, entropy: 1.4015
+iter: 6, return: 0.2077, entropy: 1.3985
+iter: 7, return: 0.2975, entropy: 1.3966
+iter: 8, return: 0.6459, entropy: 1.3942
+iter: 9, return: 0.8702, entropy: 1.3919
+iter: 10, return: 1.4139, entropy: 1.3899
+iter: 11, return: 1.8092, entropy: 1.3885
+iter: 12, return: 2.2313, entropy: 1.3871
+iter: 13, return: 2.7605, entropy: 1.3852
+iter: 14, return: 2.8304, entropy: 1.3834
+iter: 15, return: 3.0890, entropy: 1.3817
+iter: 16, return: 3.3171, entropy: 1.3791
+iter: 17, return: 3.2911, entropy: 1.3761
+iter: 18, return: 3.2651, entropy: 1.3736
+iter: 19, return: 3.3653, entropy: 1.3719
+iter: 20, return: 3.5569, entropy: 1.3700
+iter: 21, return: 3.5678, entropy: 1.3675
+iter: 22, return: 3.5129, entropy: 1.3643
+iter: 23, return: 3.6677, entropy: 1.3613
+iter: 24, return: 3.5884, entropy: 1.3582
+iter: 25, return: 3.6661, entropy: 1.3549
+
+=== IBIS training profiling (evaluation loops excluded) ===
+reweight calls: 344300
+move triggers total: 60536
+move kernel calls: 181608
+trajectory reweight calls: 345600
+likelihood evals (IBIS reweight): 44070400
+likelihood evals (IBIS move): 508830720
+likelihood evals (trajectory reweight SMC/CSMC): 44236800
+likelihood evals (IBIS total): 552901120
+likelihood evals (total training): 597137920
+likelihood evals (reference SMC): 17335808
+likelihood evals (markovian init CSMC): 17175424
+likelihood evals (markovian loop CSMC): 562626688
+likelihood evals (CSMC training calls total): 579802112
+sanity checks: mechanism_partition=true, ibis_partition=true, phase_partition=true, csmc_partition=true
+phase totals:
+  markovian_init_csmc => total=17175424, ibis_reweight=1632000, ibis_move=13905024, trajectory_reweight=1638400
+  markovian_loop_csmc => total=562626688, ibis_reweight=40800000, ibis_move=480866688, trajectory_reweight=40960000
+  reference_smc => total=17335808, ibis_reweight=1638400, ibis_move=14059008, trajectory_reweight=1638400
+move-trigger counts by time index t:
+  t=1 => 3086
+  t=2 => 2558
+  t=3 => 2164
+  t=4 => 1807
+  t=5 => 1577
+  t=6 => 1425
+  t=7 => 1291
+  t=8 => 1280
+  t=9 => 1377
+  t=10 => 1219
+  t=11 => 1278
+  t=12 => 1236
+  t=13 => 1309
+  t=14 => 1309
+  t=15 => 1421
+  t=16 => 1404
+  t=17 => 1321
+  t=18 => 1316
+  t=19 => 1210
+  t=20 => 1085
+  t=21 => 1016
+  t=22 => 902
+  t=23 => 960
+  t=24 => 953
+  t=25 => 996
+  t=26 => 1080
+  t=27 => 1132
+  t=28 => 1190
+  t=29 => 1253
+  t=30 => 1221
+  t=31 => 1238
+  t=32 => 1271
+  t=33 => 1167
+  t=34 => 1135
+  t=35 => 1016
+  t=36 => 882
+  t=37 => 882
+  t=38 => 785
+  t=39 => 769
+  t=40 => 755
+  t=41 => 886
+  t=42 => 870
+  t=43 => 896
+  t=44 => 870
+  t=45 => 986
+  t=46 => 990
+  t=47 => 972
+  t=48 => 949
+  t=49 => 935
+  t=50 => 906
+Saved trained policy to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed3.jld2
+[train:nonlinear] TRAIN_SEED=4
+iter: 0, return: 0.1468, entropy: 1.4189
+iter: 1, return: 0.1327, entropy: 1.4149
+iter: 2, return: 0.1413, entropy: 1.4110
+iter: 3, return: 0.1563, entropy: 1.4071
+iter: 4, return: 0.2554, entropy: 1.4034
+iter: 5, return: 0.3269, entropy: 1.3997
+iter: 6, return: 0.5429, entropy: 1.3961
+iter: 7, return: 0.5870, entropy: 1.3929
+iter: 8, return: 0.7363, entropy: 1.3904
+iter: 9, return: 0.7785, entropy: 1.3875
+iter: 10, return: 1.4024, entropy: 1.3845
+iter: 11, return: 1.9224, entropy: 1.3819
+iter: 12, return: 2.2091, entropy: 1.3788
+iter: 13, return: 2.5610, entropy: 1.3747
+iter: 14, return: 2.8753, entropy: 1.3698
+iter: 15, return: 2.8508, entropy: 1.3655
+iter: 16, return: 2.8828, entropy: 1.3616
+iter: 17, return: 2.9067, entropy: 1.3575
+iter: 18, return: 3.1842, entropy: 1.3535
+iter: 19, return: 3.4259, entropy: 1.3497
+iter: 20, return: 3.5007, entropy: 1.3458
+iter: 21, return: 3.5165, entropy: 1.3419
+iter: 22, return: 3.5247, entropy: 1.3380
+iter: 23, return: 3.5420, entropy: 1.3347
+iter: 24, return: 3.5964, entropy: 1.3326
+iter: 25, return: 3.6866, entropy: 1.3307
+
+=== IBIS training profiling (evaluation loops excluded) ===
+reweight calls: 344300
+move triggers total: 59372
+move kernel calls: 178116
+trajectory reweight calls: 345600
+likelihood evals (IBIS reweight): 44070400
+likelihood evals (IBIS move): 490075392
+likelihood evals (trajectory reweight SMC/CSMC): 44236800
+likelihood evals (IBIS total): 534145792
+likelihood evals (total training): 578382592
+likelihood evals (reference SMC): 17566592
+likelihood evals (markovian init CSMC): 17656192
+likelihood evals (markovian loop CSMC): 543159808
+likelihood evals (CSMC training calls total): 560816000
+sanity checks: mechanism_partition=true, ibis_partition=true, phase_partition=true, csmc_partition=true
+phase totals:
+  markovian_init_csmc => total=17656192, ibis_reweight=1632000, ibis_move=14385792, trajectory_reweight=1638400
+  markovian_loop_csmc => total=543159808, ibis_reweight=40800000, ibis_move=461399808, trajectory_reweight=40960000
+  reference_smc => total=17566592, ibis_reweight=1638400, ibis_move=14289792, trajectory_reweight=1638400
+move-trigger counts by time index t:
+  t=1 => 3125
+  t=2 => 2629
+  t=3 => 2200
+  t=4 => 1797
+  t=5 => 1604
+  t=6 => 1467
+  t=7 => 1403
+  t=8 => 1324
+  t=9 => 1264
+  t=10 => 1351
+  t=11 => 1262
+  t=12 => 1235
+  t=13 => 1249
+  t=14 => 1338
+  t=15 => 1272
+  t=16 => 1396
+  t=17 => 1329
+  t=18 => 1328
+  t=19 => 1250
+  t=20 => 1233
+  t=21 => 1051
+  t=22 => 914
+  t=23 => 946
+  t=24 => 860
+  t=25 => 920
+  t=26 => 924
+  t=27 => 980
+  t=28 => 1039
+  t=29 => 1082
+  t=30 => 1110
+  t=31 => 1139
+  t=32 => 1188
+  t=33 => 1163
+  t=34 => 1107
+  t=35 => 1007
+  t=36 => 987
+  t=37 => 869
+  t=38 => 834
+  t=39 => 753
+  t=40 => 788
+  t=41 => 762
+  t=42 => 808
+  t=43 => 816
+  t=44 => 800
+  t=45 => 907
+  t=46 => 908
+  t=47 => 878
+  t=48 => 966
+  t=49 => 913
+  t=50 => 897
+Saved trained policy to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed4.jld2
+[train:nonlinear] TRAIN_SEED=5
+iter: 0, return: 0.1387, entropy: 1.4189
+iter: 1, return: 0.1414, entropy: 1.4150
+iter: 2, return: 0.2356, entropy: 1.4111
+iter: 3, return: 0.2391, entropy: 1.4078
+iter: 4, return: 0.3081, entropy: 1.4042
+iter: 5, return: 0.2371, entropy: 1.4006
+iter: 6, return: 0.3224, entropy: 1.3968
+iter: 7, return: 0.5673, entropy: 1.3928
+iter: 8, return: 1.3696, entropy: 1.3890
+iter: 9, return: 1.5575, entropy: 1.3859
+iter: 10, return: 1.7281, entropy: 1.3828
+iter: 11, return: 2.2181, entropy: 1.3791
+iter: 12, return: 2.6752, entropy: 1.3749
+iter: 13, return: 2.9091, entropy: 1.3708
+iter: 14, return: 3.2845, entropy: 1.3666
+iter: 15, return: 3.2575, entropy: 1.3631
+iter: 16, return: 3.3354, entropy: 1.3593
+iter: 17, return: 3.2889, entropy: 1.3554
+iter: 18, return: 3.3377, entropy: 1.3517
+iter: 19, return: 3.3836, entropy: 1.3480
+iter: 20, return: 3.4901, entropy: 1.3445
+iter: 21, return: 3.4173, entropy: 1.3409
+iter: 22, return: 3.5310, entropy: 1.3373
+iter: 23, return: 3.6619, entropy: 1.3337
+iter: 24, return: 3.5501, entropy: 1.3296
+iter: 25, return: 3.5986, entropy: 1.3260
+
+=== IBIS training profiling (evaluation loops excluded) ===
+reweight calls: 344300
+move triggers total: 61116
+move kernel calls: 183348
+trajectory reweight calls: 345600
+likelihood evals (IBIS reweight): 44070400
+likelihood evals (IBIS move): 511897344
+likelihood evals (trajectory reweight SMC/CSMC): 44236800
+likelihood evals (IBIS total): 555967744
+likelihood evals (total training): 600204544
+likelihood evals (reference SMC): 17487872
+likelihood evals (markovian init CSMC): 18757120
+likelihood evals (markovian loop CSMC): 563959552
+likelihood evals (CSMC training calls total): 582716672
+sanity checks: mechanism_partition=true, ibis_partition=true, phase_partition=true, csmc_partition=true
+phase totals:
+  markovian_init_csmc => total=18757120, ibis_reweight=1632000, ibis_move=15486720, trajectory_reweight=1638400
+  markovian_loop_csmc => total=563959552, ibis_reweight=40800000, ibis_move=482199552, trajectory_reweight=40960000
+  reference_smc => total=17487872, ibis_reweight=1638400, ibis_move=14211072, trajectory_reweight=1638400
+move-trigger counts by time index t:
+  t=1 => 3229
+  t=2 => 2552
+  t=3 => 2085
+  t=4 => 1710
+  t=5 => 1629
+  t=6 => 1421
+  t=7 => 1360
+  t=8 => 1319
+  t=9 => 1262
+  t=10 => 1294
+  t=11 => 1381
+  t=12 => 1315
+  t=13 => 1336
+  t=14 => 1361
+  t=15 => 1411
+  t=16 => 1433
+  t=17 => 1441
+  t=18 => 1320
+  t=19 => 1196
+  t=20 => 1137
+  t=21 => 1033
+  t=22 => 927
+  t=23 => 965
+  t=24 => 934
+  t=25 => 1022
+  t=26 => 1109
+  t=27 => 1100
+  t=28 => 1161
+  t=29 => 1204
+  t=30 => 1265
+  t=31 => 1262
+  t=32 => 1212
+  t=33 => 1186
+  t=34 => 1073
+  t=35 => 1079
+  t=36 => 958
+  t=37 => 889
+  t=38 => 809
+  t=39 => 815
+  t=40 => 781
+  t=41 => 781
+  t=42 => 833
+  t=43 => 919
+  t=44 => 946
+  t=45 => 922
+  t=46 => 994
+  t=47 => 967
+  t=48 => 989
+  t=49 => 938
+  t=50 => 851
+Saved trained policy to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed5.jld2
+[eval:nonlinear] Running sPCE over training seeds
+train_seed: 1, sPCE: 3.7259 ± 0.1909
+train_seed: 2, sPCE: 3.5433 ± 0.1814
+train_seed: 3, sPCE: 3.7171 ± 0.1403
+train_seed: 4, sPCE: 3.6481 ± 0.2163
+train_seed: 5, sPCE: 3.7402 ± 0.1725
+Across training seeds sPCE: 3.6749 ± 0.0817
+Saved per-seed sPCE summary to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_spce_over_training_seeds.csv
+Pipeline complete.
+[2/3] Run NMC evaluation
+====================================================
+Experiment: nonlinear
+Evaluation seeds: 1,2,3,4,5
+Load path: @:@stdlib
+====================================================
+[eval:nonlinear] Running NMC over training seeds
+train_seed: 1, NMC: 3.7273 ± 0.1912
+train_seed: 2, NMC: 3.5447 ± 0.1819
+train_seed: 3, NMC: 3.7198 ± 0.1414
+train_seed: 4, NMC: 3.6496 ± 0.2168
+train_seed: 5, NMC: 3.7440 ± 0.1745
+Across training seeds NMC: 3.6771 ± 0.0823
+Saved per-seed NMC summary to ./experiments/pendulum/nonlinear/data/nonlinear_pendulum_nmc_over_training_seeds.csv
+NMC evaluation complete.
+[3/3] Export trajectories
+====================================================
+Experiment: nonlinear
+Trajectory seeds: 1,2,3,4,5
+Load path: @:@stdlib
+====================================================
+[trajectory:nonlinear] TRAIN_SEED=1
+[trajectory:nonlinear] TRAIN_SEED=2
+[trajectory:nonlinear] TRAIN_SEED=3
+[trajectory:nonlinear] TRAIN_SEED=4
+[trajectory:nonlinear] TRAIN_SEED=5
+5-seed trajectory CSV generation complete.
+Full pipeline complete.
+SBATCH script done!
