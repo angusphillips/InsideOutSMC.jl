@@ -79,7 +79,7 @@ evaluator_loop = IBISClosedLoop(
 
 action_penalty = parse(Float64, get(ENV, "ACTION_PENALTY", "0.0"))
 slew_rate_penalty = parse(Float64, get(ENV, "SLEW_RATE_PENALTY", "0.0"))
-tempering = parse(Float64, get(ENV, "TEMPERING", "0.25"))
+tempering = parse(Float64, get(ENV, "TEMPERING", "1"))
 
 nb_steps = parse(Int, get(ENV, "NB_STEPS", string(T)))
 nb_trajectories = parse(Int, get(ENV, "NB_TRAJECTORIES", "256"))
