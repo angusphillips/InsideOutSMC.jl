@@ -30,9 +30,13 @@ run_one_experiment() {
       train_script="experiments/double_pendulum/trajectory_plot/io_csmc_sysid.jl"
       eval_script="experiments/double_pendulum/estimators/spce_over_training_seeds.jl"
       ;;
+    locationfinding)
+      train_script="experiments/locationfinding/trajectory_plot/io_csmc_sysid.jl"
+      eval_script="experiments/locationfinding/estimators/spce_over_training_seeds.jl"
+      ;;
     *)
       echo "Unknown experiment: $exp_name"
-      echo "Use one of: nonlinear, cartpole, double_pendulum, all"
+      echo "Use one of: nonlinear, cartpole, double_pendulum, locationfinding, all"
       exit 1
       ;;
   esac
@@ -64,13 +68,14 @@ case "$EXPERIMENT" in
     run_one_experiment nonlinear
     run_one_experiment cartpole
     run_one_experiment double_pendulum
+    run_one_experiment locationfinding
     ;;
-  nonlinear|cartpole|double_pendulum)
+  nonlinear|cartpole|double_pendulum|locationfinding)
     run_one_experiment "$EXPERIMENT"
     ;;
   *)
     echo "Unknown experiment: $EXPERIMENT"
-    echo "Usage: scripts/run_5seed_pce_pipeline.sh [nonlinear|cartpole|double_pendulum|all]"
+    echo "Usage: scripts/run_5seed_pce_pipeline.sh [nonlinear|cartpole|double_pendulum|locationfinding|all]"
     exit 1
     ;;
 esac

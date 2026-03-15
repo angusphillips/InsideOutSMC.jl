@@ -11,6 +11,33 @@ using Random
 end
 
 
+function _resample_policy_state!(
+    policy::StochasticPolicy,
+    resampled_idx::AbstractVector{Int},
+    time_idx::Int,
+)
+    if time_idx <= 1
+        return nothing
+    end
+
+    if policy isa StatefulStochasticPolicy
+        for layer in policy.encoder_fn
+            if _is_stateful_recur_layer(layer)
+                if layer.cell isa Flux.GRUCell
+                    layer.state .= layer.state[:, resampled_idx]
+                elseif layer.cell isa Flux.LSTMCell
+                    layer.state[1] .= layer.state[1][:, resampled_idx]
+                    layer.state[2] .= layer.state[2][:, resampled_idx]
+                end
+            end
+        end
+    end
+
+    policy_resample_state!(policy, resampled_idx)
+    return nothing
+end
+
+
 function smc_step!(
     time_idx::Int,
     closedloop::ClosedLoop,
@@ -29,21 +56,7 @@ function smc_step!(
         state_struct.trajectories .= state_struct.trajectories[:, :, state_struct.resampled_idx]
         state_struct.cumulative_return .= state_struct.cumulative_return[state_struct.resampled_idx]
 
-        # Resample hidden states
-        if time_idx > 1
-            if closedloop.ctl isa StatefulStochasticPolicy
-                for layer in closedloop.ctl.encoder_fn
-                    if _is_stateful_recur_layer(layer)
-                        if layer.cell isa Flux.GRUCell
-                            layer.state .= layer.state[:, state_struct.resampled_idx]
-                        elseif layer.cell isa Flux.LSTMCell
-                            layer.state[1] .= layer.state[1][:, state_struct.resampled_idx]
-                            layer.state[2] .= layer.state[2][:, state_struct.resampled_idx]
-                        end
-                    end
-                end
-            end
-        end
+        _resample_policy_state!(closedloop.ctl, state_struct.resampled_idx, time_idx)
     end
 
     # Propagate
@@ -86,21 +99,7 @@ function csmc_step!(
         state_struct.trajectories .= state_struct.trajectories[:, :, state_struct.resampled_idx]
         state_struct.cumulative_return .= state_struct.cumulative_return[state_struct.resampled_idx]
 
-        # Resample hidden states
-        if time_idx > 1
-            if closedloop.ctl isa StatefulStochasticPolicy
-                for layer in closedloop.ctl.encoder_fn
-                    if _is_stateful_recur_layer(layer)
-                        if layer.cell isa Flux.GRUCell
-                            layer.state .= layer.state[:, state_struct.resampled_idx]
-                        elseif layer.cell isa Flux.LSTMCell
-                            layer.state[1] .= layer.state[1][:, state_struct.resampled_idx]
-                            layer.state[2] .= layer.state[2][:, state_struct.resampled_idx]
-                        end
-                    end
-                end
-            end
-        end
+        _resample_policy_state!(closedloop.ctl, state_struct.resampled_idx, time_idx)
     end
 
     # Propagate
@@ -150,21 +149,7 @@ function smc_step_with_ibis_marginal_dynamics!(
         param_struct.log_weights .= @view param_struct.log_weights[:, :, state_struct.resampled_idx]
         param_struct.log_likelihoods .= @view param_struct.log_likelihoods[:, :, state_struct.resampled_idx]
 
-        # Resample hidden states
-        if time_idx > 1
-            if closedloop.ctl isa StatefulStochasticPolicy
-                for layer in closedloop.ctl.encoder_fn
-                    if _is_stateful_recur_layer(layer)
-                        if layer.cell isa Flux.GRUCell
-                            layer.state .= layer.state[:, state_struct.resampled_idx]
-                        elseif layer.cell isa Flux.LSTMCell
-                            layer.state[1] .= layer.state[1][:, state_struct.resampled_idx]
-                            layer.state[2] .= layer.state[2][:, state_struct.resampled_idx]
-                        end
-                    end
-                end
-            end
-        end
+        _resample_policy_state!(closedloop.ctl, state_struct.resampled_idx, time_idx)
     end
 
     # Propagate
@@ -235,21 +220,7 @@ function csmc_step_with_ibis_marginal_dynamics!(
         param_struct.log_weights .= @view param_struct.log_weights[:, :, state_struct.resampled_idx]
         param_struct.log_likelihoods .= @view param_struct.log_likelihoods[:, :, state_struct.resampled_idx]
 
-        # Resample hidden states
-        if time_idx > 1
-            if closedloop.ctl isa StatefulStochasticPolicy
-                for layer in closedloop.ctl.encoder_fn
-                    if _is_stateful_recur_layer(layer)
-                        if layer.cell isa Flux.GRUCell
-                            layer.state .= layer.state[:, state_struct.resampled_idx]
-                        elseif layer.cell isa Flux.LSTMCell
-                            layer.state[1] .= layer.state[1][:, state_struct.resampled_idx]
-                            layer.state[2] .= layer.state[2][:, state_struct.resampled_idx]
-                        end
-                    end
-                end
-            end
-        end
+        _resample_policy_state!(closedloop.ctl, state_struct.resampled_idx, time_idx)
     end
 
     # Propagate
@@ -316,21 +287,7 @@ function smc_step_with_rao_blackwell_marginal_dynamics!(
         # Resample posteriors
         param_struct.distributions .= param_struct.distributions[:, state_struct.resampled_idx]
 
-        # Resample hidden states
-        if time_idx > 1
-            if closedloop.ctl isa StatefulStochasticPolicy
-                for layer in closedloop.ctl.encoder_fn
-                    if _is_stateful_recur_layer(layer)
-                        if layer.cell isa Flux.GRUCell
-                            layer.state .= layer.state[:, state_struct.resampled_idx]
-                        elseif layer.cell isa Flux.LSTMCell
-                            layer.state[1] .= layer.state[1][:, state_struct.resampled_idx]
-                            layer.state[2] .= layer.state[2][:, state_struct.resampled_idx]
-                        end
-                    end
-                end
-            end
-        end
+        _resample_policy_state!(closedloop.ctl, state_struct.resampled_idx, time_idx)
     end
 
     # Propagate
@@ -387,21 +344,7 @@ function csmc_step_with_rao_blackwell_marginal_dynamics!(
         # Resample posteriors
         param_struct.distributions .= param_struct.distributions[:, state_struct.resampled_idx]
 
-        # Resample hidden states
-        if time_idx > 1
-            if closedloop.ctl isa StatefulStochasticPolicy
-                for layer in closedloop.ctl.encoder_fn
-                    if _is_stateful_recur_layer(layer)
-                        if layer.cell isa Flux.GRUCell
-                            layer.state .= layer.state[:, state_struct.resampled_idx]
-                        elseif layer.cell isa Flux.LSTMCell
-                            layer.state[1] .= layer.state[1][:, state_struct.resampled_idx]
-                            layer.state[2] .= layer.state[2][:, state_struct.resampled_idx]
-                        end
-                    end
-                end
-            end
-        end
+        _resample_policy_state!(closedloop.ctl, state_struct.resampled_idx, time_idx)
     end
 
     # Propagate

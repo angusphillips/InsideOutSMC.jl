@@ -82,6 +82,7 @@ export policy_mean
 export policy_sample
 export policy_logpdf
 export policy_entropy
+export policy_resample_state!
 
 export ClosedLoop
 

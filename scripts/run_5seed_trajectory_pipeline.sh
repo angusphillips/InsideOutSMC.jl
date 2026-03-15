@@ -21,9 +21,12 @@ run_one_experiment() {
     double_pendulum)
       plot_script="experiments/double_pendulum/trajectory_plot/make_plot.jl"
       ;;
+    locationfinding)
+      plot_script="experiments/locationfinding/trajectory_plot/make_plot.jl"
+      ;;
     *)
       echo "Unknown experiment: $exp_name"
-      echo "Use one of: nonlinear, cartpole, double_pendulum, all"
+      echo "Use one of: nonlinear, cartpole, double_pendulum, locationfinding, all"
       exit 1
       ;;
   esac
@@ -46,13 +49,14 @@ case "$EXPERIMENT" in
     run_one_experiment nonlinear
     run_one_experiment cartpole
     run_one_experiment double_pendulum
+    run_one_experiment locationfinding
     ;;
-  nonlinear|cartpole|double_pendulum)
+  nonlinear|cartpole|double_pendulum|locationfinding)
     run_one_experiment "$EXPERIMENT"
     ;;
   *)
     echo "Unknown experiment: $EXPERIMENT"
-    echo "Usage: scripts/run_5seed_trajectory_pipeline.sh [nonlinear|cartpole|double_pendulum|all]"
+    echo "Usage: scripts/run_5seed_trajectory_pipeline.sh [nonlinear|cartpole|double_pendulum|locationfinding|all]"
     exit 1
     ;;
 esac

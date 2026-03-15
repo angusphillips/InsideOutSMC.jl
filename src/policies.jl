@@ -10,6 +10,14 @@ import Bijectors
 abstract type StochasticPolicy end
 
 
+function policy_resample_state!(
+    sp::StochasticPolicy,
+    resampled_idx::AbstractVector{Int},
+)
+    return nothing
+end
+
+
 function policy_mean(
     sp::StochasticPolicy,
     z::AbstractVector{Float64},

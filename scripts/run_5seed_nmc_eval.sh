@@ -24,9 +24,12 @@ run_one_experiment() {
     double_pendulum)
       eval_script="experiments/double_pendulum/estimators/nmc_over_training_seeds.jl"
       ;;
+    locationfinding)
+      eval_script="experiments/locationfinding/estimators/nmc_over_training_seeds.jl"
+      ;;
     *)
       echo "Unknown experiment: $exp_name"
-      echo "Use one of: nonlinear, cartpole, double_pendulum, all"
+      echo "Use one of: nonlinear, cartpole, double_pendulum, locationfinding, all"
       exit 1
       ;;
   esac
@@ -52,13 +55,14 @@ case "$EXPERIMENT" in
     run_one_experiment nonlinear
     run_one_experiment cartpole
     run_one_experiment double_pendulum
+    run_one_experiment locationfinding
     ;;
-  nonlinear|cartpole|double_pendulum)
+  nonlinear|cartpole|double_pendulum|locationfinding)
     run_one_experiment "$EXPERIMENT"
     ;;
   *)
     echo "Unknown experiment: $EXPERIMENT"
-    echo "Usage: scripts/run_5seed_nmc_eval.sh [nonlinear|cartpole|double_pendulum|all]"
+    echo "Usage: scripts/run_5seed_nmc_eval.sh [nonlinear|cartpole|double_pendulum|locationfinding|all]"
     exit 1
     ;;
 esac
