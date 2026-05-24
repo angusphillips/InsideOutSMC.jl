@@ -26,17 +26,21 @@ nb_steps = parse(Int, get(ENV, "NB_STEPS", "50"))
 nb_outer_samples = parse(Int, get(ENV, "NB_OUTER_SAMPLES", "64"))
 nb_inner_samples = parse(Int, get(ENV, "NB_INNER_SAMPLES", "100000"))
 
+config_tag = get(ENV, "CONFIG_TAG", "")
+io_dir = isempty(config_tag) ? "./experiments/cartpole/data" : "./experiments/cartpole/data/$(config_tag)"
+mkpath(io_dir)
+
 csv_path = get(
     ENV,
     "SPCE_CSV_PATH",
-    "./experiments/cartpole/data/cartpole_spce_over_training_seeds.csv"
+    joinpath(io_dir, "cartpole_spce_over_training_seeds.csv"),
 )
 
 seed_means = zeros(length(train_seeds))
 seed_stds = zeros(length(train_seeds))
 
 for (i, train_seed) in enumerate(train_seeds)
-    policy_path = "./experiments/cartpole/data/cartpole_ibis_csmc_ctl_seed$(train_seed).jld2"
+    policy_path = joinpath(io_dir, "cartpole_ibis_csmc_ctl_seed$(train_seed).jld2")
 
     if !isfile(policy_path)
         error("Missing policy file $(policy_path). Train it first with TRAIN_SEED=$(train_seed).")

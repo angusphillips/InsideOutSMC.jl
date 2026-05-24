@@ -25,7 +25,11 @@ using DelimitedFiles
 
 train_seed = parse(Int, get(ENV, "TRAIN_SEED", "1"))
 
-ibis_policy = load("./experiments/cartpole/data/cartpole_ibis_csmc_ctl_seed$(train_seed).jld2")["ctl"]
+config_tag = get(ENV, "CONFIG_TAG", "")
+io_dir = isempty(config_tag) ? "./experiments/cartpole/data" : "./experiments/cartpole/data/$(config_tag)"
+mkpath(io_dir)
+
+ibis_policy = load(joinpath(io_dir, "cartpole_ibis_csmc_ctl_seed$(train_seed).jld2"))["ctl"]
 Flux.reset!(ibis_policy)
 
 true_params = [1.0, 1.0, 1.0]
@@ -51,11 +55,11 @@ for t = 1:nb_steps
 end
 time_steps = 1:1:nb_steps+1
 writedlm(
-    "./experiments/cartpole/data/cartpole_ibis_csmc_trajectory_seed$(train_seed).csv",
+    joinpath(io_dir, "cartpole_ibis_csmc_trajectory_seed$(train_seed).csv"),
     hcat(time_steps, trajectory'), ','
 )
 
-if train_seed == 1
+if isempty(config_tag) && train_seed == 1
     writedlm(
         "./experiments/cartpole/data/cartpole_ibis_csmc_trajectory.csv",
         hcat(time_steps, trajectory'), ','

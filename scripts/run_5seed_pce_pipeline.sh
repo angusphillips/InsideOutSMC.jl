@@ -3,12 +3,23 @@ set -euo pipefail
 
 EXPERIMENT="${1:-nonlinear}"
 SEEDS_CSV="${SEEDS:-1,2,3,4,5}"
-LOAD_PATH_VALUE="${JULIA_LOAD_PATH:-@:@stdlib}"
+export JULIA_LOAD_PATH="${JULIA_LOAD_PATH:-@:@stdlib}"
 
-NB_SPCE_RUNS_VALUE="${NB_SPCE_RUNS:-32}"
-NB_STEPS_VALUE="${NB_STEPS:-50}"
-NB_OUTER_SAMPLES_VALUE="${NB_OUTER_SAMPLES:-64}"
-NB_INNER_SAMPLES_VALUE="${NB_INNER_SAMPLES:-100000}"
+# CONFIG_TAG selects an output subdirectory under experiments/<env>/data/.
+# If empty/unset, scripts fall back to the flat data/ directory (legacy mode).
+export CONFIG_TAG="${CONFIG_TAG:-}"
+
+# Forward training hyperparameters only if explicitly provided, so Julia
+# falls back to per-experiment defaults otherwise.
+for var in NB_ITER NB_TRAJECTORIES NB_PARTICLES NB_IBIS_MOVES NB_CSMC_MOVES BATCH_SIZE; do
+  if [[ -n "${!var:-}" ]]; then export "$var"; fi
+done
+
+# Evaluation defaults (used by spce_over_training_seeds.jl).
+export NB_SPCE_RUNS="${NB_SPCE_RUNS:-32}"
+export NB_STEPS="${NB_STEPS:-50}"
+export NB_OUTER_SAMPLES="${NB_OUTER_SAMPLES:-64}"
+export NB_INNER_SAMPLES="${NB_INNER_SAMPLES:-100000}"
 
 IFS=',' read -r -a SEED_ARRAY <<< "$SEEDS_CSV"
 
@@ -44,23 +55,17 @@ run_one_experiment() {
   echo "===================================================="
   echo "Experiment: $exp_name"
   echo "Training seeds: $SEEDS_CSV"
-  echo "Load path: $LOAD_PATH_VALUE"
+  echo "Config tag: ${CONFIG_TAG:-<none>}"
+  echo "Load path: $JULIA_LOAD_PATH"
   echo "===================================================="
 
   for seed in "${SEED_ARRAY[@]}"; do
     echo "[train:$exp_name] TRAIN_SEED=$seed"
-    TRAIN_SEED="$seed" JULIA_LOAD_PATH="$LOAD_PATH_VALUE" \
-      julia --project=. "$train_script"
+    TRAIN_SEED="$seed" julia --project=. "$train_script"
   done
 
   echo "[eval:$exp_name] Running sPCE over training seeds"
-  TRAIN_SEEDS="$SEEDS_CSV" \
-  NB_SPCE_RUNS="$NB_SPCE_RUNS_VALUE" \
-  NB_STEPS="$NB_STEPS_VALUE" \
-  NB_OUTER_SAMPLES="$NB_OUTER_SAMPLES_VALUE" \
-  NB_INNER_SAMPLES="$NB_INNER_SAMPLES_VALUE" \
-  JULIA_LOAD_PATH="$LOAD_PATH_VALUE" \
-    julia --project=. "$eval_script"
+  TRAIN_SEEDS="$SEEDS_CSV" julia --project=. "$eval_script"
 }
 
 case "$EXPERIMENT" in

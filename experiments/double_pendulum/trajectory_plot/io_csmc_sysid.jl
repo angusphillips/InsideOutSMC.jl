@@ -89,16 +89,20 @@ action_penalty = 0.0
 slew_rate_penalty = 0.1
 tempering = 0.25
 
-nb_steps = 50
-nb_trajectories = 256
-nb_particles = 128
+nb_steps = parse(Int, get(ENV, "NB_STEPS", "50"))
+nb_trajectories = parse(Int, get(ENV, "NB_TRAJECTORIES", "256"))
+nb_particles = parse(Int, get(ENV, "NB_PARTICLES", "128"))
 
-nb_ibis_moves = 3
-nb_csmc_moves = 1
+nb_ibis_moves = parse(Int, get(ENV, "NB_IBIS_MOVES", "3"))
+nb_csmc_moves = parse(Int, get(ENV, "NB_CSMC_MOVES", "1"))
 
-nb_iter = 25
+nb_iter = parse(Int, get(ENV, "NB_ITER", "25"))
 opt_state = Flux.setup(Flux.Optimise.Adam(5e-4), learner_loop)
-batch_size = 64
+batch_size = parse(Int, get(ENV, "BATCH_SIZE", "64"))
+
+config_tag = get(ENV, "CONFIG_TAG", "")
+output_dir = isempty(config_tag) ? "./experiments/double_pendulum/data" : "./experiments/double_pendulum/data/$(config_tag)"
+mkpath(output_dir)
 
 reset_ibis_profiling!()
 set_ibis_profiling_active!(true)
@@ -206,10 +210,10 @@ for (t, c) in zip(ibis_stats.move_trigger_times, ibis_stats.move_trigger_counts)
     println("  t=", t, " => ", c)
 end
 
-seed_output_path = "./experiments/double_pendulum/data/double_pendulum_ibis_csmc_ctl_seed$(train_seed).jld2"
+seed_output_path = joinpath(output_dir, "double_pendulum_ibis_csmc_ctl_seed$(train_seed).jld2")
 jldsave(seed_output_path; evaluator_loop.ctl)
 
-if train_seed == 1
+if isempty(config_tag) && train_seed == 1
     jldsave("./experiments/double_pendulum/data/double_pendulum_ibis_csmc_ctl.jld2"; evaluator_loop.ctl)
 end
 

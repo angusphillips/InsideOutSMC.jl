@@ -40,7 +40,7 @@ nb_particles = 1024
 nb_ibis_moves = 3
 nb_csmc_moves = 1
 
-nb_iter = 15
+nb_iter = 25
 batch_size = 64
 
 nb_eval = 25

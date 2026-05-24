@@ -1,0 +1,88 @@
+Precompiling packages...
+Info Given InsideOutSMC was explicitly requested, output will be shown live [0K
+[0K┌ Warning: The use of `Flux.@functor` is deprecated.
+[0K│ Most likely, you should write `Flux.@layer MyLayer`which will add various convenience methods for your type,such as pretty-printing and use with Adapt.jl.
+[0K│ However, this is not required. Flux.jl v0.15 uses Functors.jl v0.5,which makes exploration of most nested `struct`s opt-out instead of opt-in...so Flux will automatically see inside any custom struct definitions.
+[0K│ If you really want to apply the `@functor` macro to a custom struct, use `Functors.@functor` instead.
+[0K└ @ Flux ~/.julia/packages/Flux/DZYiO/src/deprecations.jl:101
+   4339.0 ms  ✓ InsideOutSMC
+  1 dependency successfully precompiled in 5 seconds. 463 already precompiled.
+  1 dependency had output during precompilation:
+┌ InsideOutSMC
+│  [Output was shown above]
+└  
+┌ Warning: The use of `Flux.@functor` is deprecated.
+│ Most likely, you should write `Flux.@layer MyLayer`which will add various convenience methods for your type,such as pretty-printing and use with Adapt.jl.
+│ However, this is not required. Flux.jl v0.15 uses Functors.jl v0.5,which makes exploration of most nested `struct`s opt-out instead of opt-in...so Flux will automatically see inside any custom struct definitions.
+│ If you really want to apply the `@functor` macro to a custom struct, use `Functors.@functor` instead.
+└ @ Flux ~/.julia/packages/Flux/DZYiO/src/deprecations.jl:101
+┌ Warning: Opening file with JLD2.MmapIO failed, falling back to IOStream
+└ @ JLD2 ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:162
+ERROR: LoadError: SystemError: opening file "./experiments/locationfinding/data/locationfinding_ibis_csmc_ctl_seed1.jld2": No such file or directory
+Stacktrace:
+  [1] systemerror(p::String, errno::Int32; extrainfo::Nothing)
+    @ Base ./error.jl:186
+  [2] open(fname::String; lock::Bool, read::Bool, write::Bool, create::Bool, truncate::Bool, append::Bool)
+    @ Base ./iostream.jl:317
+  [3] open
+    @ ./iostream.jl:296 [inlined]
+  [4] openfile
+    @ ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:152 [inlined]
+  [5] openfile(T::Type, fname::String, wr::Bool, create::Bool, truncate::Bool, fallback::Type)
+    @ JLD2 ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:163
+  [6] jldopen(fname::String, wr::Bool, create::Bool, truncate::Bool, iotype::Type{JLD2.MmapIO}; fallback::Type{IOStream}, compress::Bool, mmaparrays::Bool, typemap::Function, parallel_read::Bool, plain::Bool)
+    @ JLD2 ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:227
+  [7] jldopen
+    @ ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:174 [inlined]
+  [8] #jldopen#14
+    @ ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:297 [inlined]
+  [9] jldopen
+    @ ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:290 [inlined]
+ [10] jldsave(filename::String, compress::Bool, iotype::Type{JLD2.MmapIO}; kwargs...)
+    @ JLD2 ~/.julia/packages/JLD2/hbsZG/src/loadsave.jl:289
+ [11] jldsave
+    @ ~/.julia/packages/JLD2/hbsZG/src/loadsave.jl:283 [inlined]
+ [12] top-level scope
+    @ /data/swan22/not-backed-up/anphilli/InsideOutSMC.jl/experiments/locationfinding/trajectory_plot/io_csmc_sysid.jl:150
+ [13] include(mod::Module, _path::String)
+    @ Base ./Base.jl:306
+ [14] exec_options(opts::Base.JLOptions)
+    @ Base ./client.jl:317
+ [15] _start()
+    @ Base ./client.jl:550
+in expression starting at /data/swan22/not-backed-up/anphilli/InsideOutSMC.jl/experiments/locationfinding/trajectory_plot/io_csmc_sysid.jl:150
+
+caused by: SystemError: opening file "./experiments/locationfinding/data/locationfinding_ibis_csmc_ctl_seed1.jld2": No such file or directory
+Stacktrace:
+  [1] systemerror(p::String, errno::Int32; extrainfo::Nothing)
+    @ Base ./error.jl:186
+  [2] open(fname::String; lock::Bool, read::Bool, write::Bool, create::Bool, truncate::Bool, append::Bool)
+    @ Base ./iostream.jl:317
+  [3] open
+    @ ./iostream.jl:296 [inlined]
+  [4] JLD2.MmapIO(fname::String, write::Bool, create::Bool, truncate::Bool)
+    @ JLD2 ~/.julia/packages/JLD2/hbsZG/src/io/mmapio.jl:101
+  [5] openfile
+    @ ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:155 [inlined]
+  [6] openfile(T::Type, fname::String, wr::Bool, create::Bool, truncate::Bool, fallback::Type)
+    @ JLD2 ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:160
+  [7] jldopen(fname::String, wr::Bool, create::Bool, truncate::Bool, iotype::Type{JLD2.MmapIO}; fallback::Type{IOStream}, compress::Bool, mmaparrays::Bool, typemap::Function, parallel_read::Bool, plain::Bool)
+    @ JLD2 ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:227
+  [8] jldopen
+    @ ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:174 [inlined]
+  [9] #jldopen#14
+    @ ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:297 [inlined]
+ [10] jldopen
+    @ ~/.julia/packages/JLD2/hbsZG/src/JLD2.jl:290 [inlined]
+ [11] jldsave(filename::String, compress::Bool, iotype::Type{JLD2.MmapIO}; kwargs...)
+    @ JLD2 ~/.julia/packages/JLD2/hbsZG/src/loadsave.jl:289
+ [12] jldsave
+    @ ~/.julia/packages/JLD2/hbsZG/src/loadsave.jl:283 [inlined]
+ [13] top-level scope
+    @ /data/swan22/not-backed-up/anphilli/InsideOutSMC.jl/experiments/locationfinding/trajectory_plot/io_csmc_sysid.jl:150
+ [14] include(mod::Module, _path::String)
+    @ Base ./Base.jl:306
+ [15] exec_options(opts::Base.JLOptions)
+    @ Base ./client.jl:317
+ [16] _start()
+    @ Base ./client.jl:550

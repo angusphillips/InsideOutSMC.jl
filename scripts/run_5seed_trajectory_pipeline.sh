@@ -3,7 +3,9 @@ set -euo pipefail
 
 EXPERIMENT="${1:-nonlinear}"
 SEEDS_CSV="${SEEDS:-1,2,3,4,5}"
-LOAD_PATH_VALUE="${JULIA_LOAD_PATH:-@:@stdlib}"
+export JULIA_LOAD_PATH="${JULIA_LOAD_PATH:-@:@stdlib}"
+
+export CONFIG_TAG="${CONFIG_TAG:-}"
 
 IFS=',' read -r -a SEED_ARRAY <<< "$SEEDS_CSV"
 
@@ -34,13 +36,13 @@ run_one_experiment() {
   echo "===================================================="
   echo "Experiment: $exp_name"
   echo "Trajectory seeds: $SEEDS_CSV"
-  echo "Load path: $LOAD_PATH_VALUE"
+  echo "Config tag: ${CONFIG_TAG:-<none>}"
+  echo "Load path: $JULIA_LOAD_PATH"
   echo "===================================================="
 
   for seed in "${SEED_ARRAY[@]}"; do
     echo "[trajectory:$exp_name] TRAIN_SEED=$seed"
-    TRAIN_SEED="$seed" JULIA_LOAD_PATH="$LOAD_PATH_VALUE" \
-      julia --project=. "$plot_script"
+    TRAIN_SEED="$seed" julia --project=. "$plot_script"
   done
 }
 

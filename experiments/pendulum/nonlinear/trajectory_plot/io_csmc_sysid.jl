@@ -98,6 +98,10 @@ nb_iter = parse(Int, get(ENV, "NB_ITER", "25"))
 opt_state = Flux.setup(Flux.Optimise.Adam(1e-3), learner_loop)
 batch_size = parse(Int, get(ENV, "BATCH_SIZE", "64"))
 
+config_tag = get(ENV, "CONFIG_TAG", "")
+output_dir = isempty(config_tag) ? "./experiments/pendulum/nonlinear/data" : "./experiments/pendulum/nonlinear/data/$(config_tag)"
+mkpath(output_dir)
+
 reset_ibis_profiling!()
 set_ibis_profiling_active!(true)
 set_ibis_profiling_phase!(:reference_smc)
@@ -204,10 +208,10 @@ for (t, c) in zip(ibis_stats.move_trigger_times, ibis_stats.move_trigger_counts)
     println("  t=", t, " => ", c)
 end
 
-seed_output_path = "./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl_seed$(train_seed).jld2"
+seed_output_path = joinpath(output_dir, "nonlinear_pendulum_ibis_csmc_ctl_seed$(train_seed).jld2")
 jldsave(seed_output_path; evaluator_loop.ctl)
 
-if train_seed == 1
+if isempty(config_tag) && train_seed == 1
     jldsave("./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl.jld2"; evaluator_loop.ctl)
 end
 
