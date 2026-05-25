@@ -1,8 +1,9 @@
 #!/bin/bash
 
+#SBATCH --chdir=/bitbucket/anphilli
 #SBATCH --job-name=iosmc_smoke
-#SBATCH --output=/vols/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_smoke%A.out
-#SBATCH --error=/vols/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_smoke%A.err
+#SBATCH --output=/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_smoke%A.out
+#SBATCH --error=/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_smoke%A.err
 #SBATCH --clusters=srf_cpu_01
 #SBATCH --partition=standard-cpu
 #SBATCH --nodelist=swan22.cpu.stats.ox.ac.uk
@@ -24,7 +25,7 @@ set -euo pipefail
 
 EXPERIMENT="${EXPERIMENT:-cartpole}"
 
-LOCAL="/data/localhost/not-backed-up/$USER/InsideOutSMC.jl"
+LOCAL="/bitbucket/$USER/InsideOutSMC.jl"
 cd "$LOCAL"
 
 export JULIA_NUM_THREADS="$SLURM_CPUS_PER_TASK"
