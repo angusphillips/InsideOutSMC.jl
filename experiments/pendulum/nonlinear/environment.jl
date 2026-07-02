@@ -41,7 +41,10 @@ module PendulumEnvironment
     function diffusion_fn(
         args::AbstractVector{Float64}...
     )::Vector{Float64}
-        return [1e-1, 1e-1]
+        # Noise on the originally-noiseless (position) component is overridable
+        # via DIFF_ZERO_NOISE; default 1e-1 reproduces the 0.1-everywhere setup.
+        z = parse(Float64, get(ENV, "DIFF_ZERO_NOISE", "1e-1"))
+        return [z, 1e-1]
     end
 
     xdim = 2

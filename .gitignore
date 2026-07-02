@@ -1,0 +1,8 @@
+/slurm_outputs
+slurm-*.out
+
+# Experiment output data. Pre-existing paper artifacts that are already tracked
+# stay tracked (gitignore does not affect tracked files); this only keeps new
+# sweep/diagnostic outputs (data/<tag>/...) from being committed for now.
+experiments/*/data/
+experiments/*/*/data/

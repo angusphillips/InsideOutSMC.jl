@@ -83,9 +83,9 @@ evaluator_loop = IBISClosedLoop(
     ibis_dynamics, evaluator_policy
 )
 
-action_penalty = 0.0
-slew_rate_penalty = 0.1
-tempering = 1.0
+action_penalty = parse(Float64, get(ENV, "ACTION_PENALTY", "0.0"))
+slew_rate_penalty = parse(Float64, get(ENV, "SLEW_RATE_PENALTY", "0.1"))
+tempering = parse(Float64, get(ENV, "TEMPERING", "1.0"))
 
 nb_steps = parse(Int, get(ENV, "NB_STEPS", "50"))
 nb_trajectories = parse(Int, get(ENV, "NB_TRAJECTORIES", "256"))
@@ -101,6 +101,17 @@ batch_size = parse(Int, get(ENV, "BATCH_SIZE", "64"))
 config_tag = get(ENV, "CONFIG_TAG", "")
 output_dir = isempty(config_tag) ? "./experiments/pendulum/nonlinear/data" : "./experiments/pendulum/nonlinear/data/$(config_tag)"
 mkpath(output_dir)
+
+# Opt-in (SKIP_TRAINED_SEEDS): if this seed's policy already exists, skip
+# training entirely so seeds can be expanded later without retraining or
+# overwriting existing per-seed results. Delete the .jld2 to force a retrain.
+if get(ENV, "SKIP_TRAINED_SEEDS", "0") != "0"
+    _existing_policy = joinpath(output_dir, "nonlinear_pendulum_ibis_csmc_ctl_seed$(train_seed).jld2")
+    if isfile(_existing_policy)
+        println("SKIP_TRAINED_SEEDS set and $(_existing_policy) exists; skipping training for seed $(train_seed).")
+        exit()
+    end
+end
 
 reset_ibis_profiling!()
 set_ibis_profiling_active!(true)
@@ -210,6 +221,27 @@ end
 
 seed_output_path = joinpath(output_dir, "nonlinear_pendulum_ibis_csmc_ctl_seed$(train_seed).jld2")
 jldsave(seed_output_path; evaluator_loop.ctl)
+
+# Log this seed's total training likelihood evals to a CSV in the data/tag
+# folder (idempotent upsert: re-running a seed overwrites just its row).
+evals_csv_path = joinpath(output_dir, "nonlinear_pendulum_training_likelihood_evals.csv")
+let evals_by_seed = Dict{Int,Int}()
+    if isfile(evals_csv_path)
+        for (line_idx, line) in enumerate(eachline(evals_csv_path))
+            (line_idx == 1 || isempty(strip(line))) && continue
+            parts = split(strip(line), ',')
+            evals_by_seed[parse(Int, parts[1])] = parse(Int, parts[2])
+        end
+    end
+    evals_by_seed[train_seed] = training_total
+    open(evals_csv_path, "w") do io
+        println(io, "seed,total_training_likelihood_evals")
+        for s in sort(collect(keys(evals_by_seed)))
+            println(io, string(s, ",", evals_by_seed[s]))
+        end
+    end
+    println("Logged training likelihood evals to $(evals_csv_path)")
+end
 
 if isempty(config_tag) && train_seed == 1
     jldsave("./experiments/pendulum/nonlinear/data/nonlinear_pendulum_ibis_csmc_ctl.jld2"; evaluator_loop.ctl)

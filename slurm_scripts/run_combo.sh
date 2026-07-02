@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #SBATCH --job-name=iosmc_combo
-#SBATCH --output=/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_combo%A.out
-#SBATCH --error=/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_combo%A.err
+#SBATCH --output=slurm_outputs/iosmc_combo%A.out
+#SBATCH --error=slurm_outputs/iosmc_combo%A.err
 #SBATCH --clusters=srf_cpu_01
 #SBATCH --partition=standard-cpu
-#SBATCH --nodelist=swan22.cpu.stats.ox.ac.uk
+#SBATCH --nodelist=swan22.cpu.stats.ox.ac.uk,swan21.cpu.stats.ox.ac.uk
 #SBATCH --mem=60G
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -23,8 +23,6 @@ set -euo pipefail
 : "${EXPERIMENT:?EXPERIMENT env var required}"
 : "${CONFIG_TAG:?CONFIG_TAG env var required}"
 
-LOCAL="/bitbucket/$USER/InsideOutSMC.jl"
-cd "$LOCAL"
 
 export JULIA_NUM_THREADS="$SLURM_CPUS_PER_TASK"
 export JULIA_LOAD_PATH="${JULIA_LOAD_PATH:-@:@stdlib}"

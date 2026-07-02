@@ -1,16 +1,15 @@
 #!/bin/bash
 
-#SBATCH --chdir=/bitbucket/anphilli
 #SBATCH --job-name=iosmc_smoke
-#SBATCH --output=/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_smoke%A.out
-#SBATCH --error=/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs/iosmc_smoke%A.err
+#SBATCH --output=slurm_outputs/iosmc_smoke%A.out
+#SBATCH --error=slurm_outputs/iosmc_smoke%A.err
 #SBATCH --clusters=srf_cpu_01
 #SBATCH --partition=standard-cpu
 #SBATCH --nodelist=swan22.cpu.stats.ox.ac.uk
 #SBATCH --mem=16G
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=16
 #SBATCH --time=0-00:30:00
 
 # Lightweight smoke test of the full trajectory_plot pipeline (train + sPCE + NMC + trajectory)
@@ -24,9 +23,6 @@
 set -euo pipefail
 
 EXPERIMENT="${EXPERIMENT:-cartpole}"
-
-LOCAL="/bitbucket/$USER/InsideOutSMC.jl"
-cd "$LOCAL"
 
 export JULIA_NUM_THREADS="$SLURM_CPUS_PER_TASK"
 export JULIA_LOAD_PATH="${JULIA_LOAD_PATH:-@:@stdlib}"

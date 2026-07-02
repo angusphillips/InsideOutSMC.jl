@@ -10,8 +10,9 @@ set -euo pipefail
 #   EXPERIMENTS="cartpole double_pendulum" slurm_scripts/submit_all_combos.sh
 #   DRY_RUN=1 slurm_scripts/submit_all_combos.sh           # print sbatch lines without submitting
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SLURM_OUT_DIR="/vols/bitbucket/anphilli/InsideOutSMC.jl/slurm_outputs"
+SCRIPT_DIR="$(unset CDPATH; cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(unset CDPATH; cd "${SCRIPT_DIR}/.." && pwd)"
+SLURM_OUT_DIR="$HOME/InsideOutSMC.jl/slurm_outputs"
 
 # Each entry: NB_ITER NB_TRAJECTORIES NB_PARTICLES NB_IBIS_MOVES NB_CSMC_MOVES
 COMBOS=(
@@ -59,7 +60,8 @@ for exp in "${EXPERIMENTS_LIST[@]}"; do
       --output="$out_pat"
       --error="$err_pat"
       --export="$export_vars"
-      "${SCRIPT_DIR}/run_combo.sh"
+      --chdir="$PROJECT_DIR"
+      "slurm_scripts/run_combo.sh"
     )
 
     if [[ "$DRY_RUN" == "1" ]]; then

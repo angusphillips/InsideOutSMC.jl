@@ -76,7 +76,12 @@ module CartpoleEnvironment
     function diffusion_fn(
         args::AbstractVector{Float64}...,
     )::Vector{Float64}
-        return [1e-1, 1e-1, 1e-1, 1e-1]
+        # Noise on the originally-noiseless components (cart pos, pole angle,
+        # pole angular velocity) is overridable via DIFF_ZERO_NOISE; default
+        # 1e-1 reproduces the 0.1-everywhere setup. Component 3 (cart velocity)
+        # was the only originally-noisy channel and stays fixed at 1e-1.
+        z = parse(Float64, get(ENV, "DIFF_ZERO_NOISE", "1e-1"))
+        return [z, z, 1e-1, z]
     end
 
     xdim = 4
