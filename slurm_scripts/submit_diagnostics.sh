@@ -11,6 +11,9 @@ set -euo pipefail
 #   slew0     : 0.1 everywhere, slew_rate_penalty=0.0, tempering default.
 #   temper2x  : 0.1 everywhere, slew_rate_penalty=0.1, tempering = 2x baseline
 #               (nonlinear 2.0, cartpole 0.5, double_pendulum 0.5).
+#   paperorig : original paper setup - DIFF_ZERO_NOISE=0.0 (noise off on the
+#               originally-noiseless components), slew_rate_penalty=1.0,
+#               tempering=0.25 (intended for cartpole/double_pendulum).
 #
 # Output tags are prefixed so nothing collides with the existing unprefixed
 # baseline results (data/T256P128/...): data/<config>_T256P128/...
@@ -62,7 +65,7 @@ temper2x_for() {
 
 for config in "${CONFIGS_LIST[@]}"; do
   case "$config" in
-    diff001|slew0|temper2x) ;;
+    diff001|slew0|temper2x|paperorig) ;;
     *) echo "Unknown config: $config"; exit 1 ;;
   esac
 
@@ -101,6 +104,14 @@ for config in "${CONFIGS_LIST[@]}"; do
           ;;
         temper2x)
           export_vars+=",TEMPERING=$(temper2x_for "$exp")"
+          ;;
+        paperorig)
+          # Original paper setup: noise off on the originally-noiseless
+          # components, higher slew penalty, paper tempering (0.25 for
+          # cartpole/double_pendulum).
+          export_vars+=",DIFF_ZERO_NOISE=0.0"
+          export_vars+=",SLEW_RATE_PENALTY=1.0"
+          export_vars+=",TEMPERING=0.25"
           ;;
       esac
 
